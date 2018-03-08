@@ -49,7 +49,7 @@ task mybatisGenerate {
 		ant.properties['src_main_resources'] = sourceSets.main.resources.srcDirs[0].path
 		ant.properties['modelPackage'] = "org.zentao.entity.gen"
 		ant.properties['mapperPackage'] = "org.zentao.mapper.gen"
-		ant.properties['sqlMapperPackage'] = "mapper/gen"
+		ant.properties['sqlMapperPackage'] = "org/zentao/mapper/gen"
 
 		ant.taskdef(
 				name: 'mbgenerator',

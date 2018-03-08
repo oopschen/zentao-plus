@@ -27,4 +27,4 @@ ds:
 
 mybatis:
   map-underscore-to-camel-case: true
-  logImpl: SLF4J
+  logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
