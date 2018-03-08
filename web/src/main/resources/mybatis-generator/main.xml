@@ -6,6 +6,8 @@
     <context id="MySQL" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="javaFileEncoding" value="UTF-8"/>
         <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
         <commentGenerator>
             <property name="suppressAllComments" value="true"></property>
         </commentGenerator>
