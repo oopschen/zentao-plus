@@ -54,6 +54,14 @@
         >
         </table>
 
+        <table tableName="zt_team"
+          enableDeleteByPrimaryKey="false"
+          enableDeleteByExample="false"
+          enableUpdateByExample="false"
+          enableUpdateByPrimaryKey="false"
+          enableInsert="false"
+        >
+        </table>
     </context>
     
 </generatorConfiguration>
