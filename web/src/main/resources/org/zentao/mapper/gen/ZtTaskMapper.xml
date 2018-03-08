@@ -68,13 +68,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project, module, story, storyVersion, fromBug, name, type, pri, estimate, consumed, 
-    left, deadline, status, color, openedBy, openedDate, assignedTo, assignedDate, estStarted, 
-    realStarted, finishedBy, finishedDate, canceledBy, canceledDate, closedBy, closedDate, 
-    closedReason, lastEditedBy, lastEditedDate, deleted
+    id, project, "module", story, storyVersion, fromBug, "name", "type", pri, estimate, 
+    consumed, "left", deadline, "status", color, openedBy, openedDate, assignedTo, assignedDate, 
+    estStarted, realStarted, finishedBy, finishedDate, canceledBy, canceledDate, closedBy, 
+    closedDate, closedReason, lastEditedBy, lastEditedDate, deleted
   </sql>
   <sql id="Blob_Column_List">
-    mailto, desc
+    mailto, "desc"
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="org.zentao.entity.gen.ZtTaskExample" resultMap="ResultMapWithBLOBs">
     select

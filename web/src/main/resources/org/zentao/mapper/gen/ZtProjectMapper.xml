@@ -65,12 +65,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, isCat, catID, type, parent, name, code, begin, end, days, status, statge, pri, 
-    openedBy, openedDate, openedVersion, closedBy, closedDate, canceledBy, canceledDate, 
-    PO, PM, QD, RD, team, acl, order, deleted
+    id, isCat, catID, "type", parent, "name", code, "begin", "end", "days", "status", 
+    statge, pri, openedBy, openedDate, openedVersion, closedBy, closedDate, canceledBy, 
+    canceledDate, PO, PM, QD, RD, team, acl, "order", deleted
   </sql>
   <sql id="Blob_Column_List">
-    desc, whitelist
+    "desc", whitelist
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="org.zentao.entity.gen.ZtProjectExample" resultMap="ResultMapWithBLOBs">
     select
