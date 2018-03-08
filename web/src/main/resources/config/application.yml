@@ -6,6 +6,10 @@ logging.level:
 spring:
   mustache:
     suffix: .mst
+  mvc:
+    contentnegotiation:
+      favor-path-extension: true
+
 
 ds:
   driverClass: com.mysql.jdbc.Driver
