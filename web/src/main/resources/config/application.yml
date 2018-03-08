@@ -1,3 +1,26 @@
-logging.level.root=INFO
-logging.level.org.springframework.web=INFO
-logging.level.org.hibernate=ERROR
+logging.level:
+  root: INFO
+  org.springframework.web: INFO
+  org.hibernate: ERROR
+
+spring:
+  mustache:
+    suffix: .mst
+
+ds:
+  driverClass: com.mysql.jdbc.Driver
+  jdbcUrl: jdbc:mysql://localhost:7788/zentao?useUnicode=true&useSSL=false&characterEncoding=utf-8&useSSL=false
+  user: zentao
+  password: zentao1024
+  minPoolSize: 3
+  initialPoolSize: 3
+  maxPoolSize: 10
+  maxIdleTime: 600
+  acquireIncrement: 10
+  acquireRetryAttempts: 10
+  checkoutTimeout: 10000
+
+
+mybatis:
+  map-underscore-to-camel-case: true
+  logImpl: SLF4J
