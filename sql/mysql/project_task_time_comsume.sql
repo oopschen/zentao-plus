@@ -16,5 +16,14 @@ select
   t.finishedBy
 from zt_task t
 right join zt_team te on te.project = @projectID and te.account = t.finishedBy
-where t.project = @projectID and deleted = '0'
+where t.project = @projectID and deleted = '0' and status in ('closed', 'done')
+group by t.finishedBy;
+
+-- 按人统计任务数
+select
+  count(*) as taskNum,
+  t.finishedBy
+from zt_task t
+right join zt_team te on te.project = @projectID and te.account = t.finishedBy
+where t.project = @projectID and deleted = '0' and status in ('closed', 'done')
 group by t.finishedBy;

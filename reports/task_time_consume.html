@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>时间报告</title>
+    <style type="text/css" media="screen">
+.charts {
+  height: 400px;
+  width: 100%;
+}
+.body {
+  width: 1280px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="body">
+      <div>
+        <div class="charts" id="people-charts"></div>
+      </div>
+
+      <div>
+        <div class="charts" id="task-type-pie"></div>
+      </div>
+
+    </div>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script charset="utf-8">
+
+Highcharts.chart('people-charts', {
+
+    chart: {
+        type: 'column'
+    },
+
+    title: {
+        text: '项目成员工作情况报表'
+    },
+
+	  xAxis: {
+        categories: [
+            'chenlei',
+            'sutong',
+            'zxh',
+            'xyt'
+        ],
+        crosshair: true
+    },
+
+    yAxis: [{
+        title: {
+            text: '总耗时'
+        }
+    }, {
+        opposite: true,
+        title: {
+            text: '任务数'
+        }
+    }],
+
+    plotOptions: {
+        column: {
+            borderRadius: 5
+        }
+    },
+
+    series: [{
+        name: '任务总数',
+        data: [
+          ['chenlei', 9 ],
+          ['sutong', 4 ],
+          ['zxh', 3 ],
+          ['xyt', 4 ]
+        ],
+        yAxis: 1
+    }, {
+        name: '实际总耗时',
+        data: [
+          ['chenlei', 4.71 ],
+          ['sutong', 12 ],
+          ['zxh', 11 ],
+          ['xyt', 7.70 ]
+
+        ]
+    }, {
+      name: '预计总耗时',
+      data: [
+          ['chenlei', 10.5 ],
+          ['sutong', 16],
+          ['zxh', 14 ],
+          ['xyt', 17 ]
+      ]
+    }
+    ]
+
+});
+
+Highcharts.chart('task-type-pie', {
+
+    title: {
+        text: '任务类型报表'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+
+    xAxis: {
+        categories: ['design', 'devel']
+    },
+
+    series: [{
+        type: 'pie',
+        allowPointSelect: true,
+        keys: ['name', 'y', 'selected', 'sliced'],
+        data: [
+            ['design', 0.61, false],
+            ['devel', 42.8, false]
+        ],
+        showInLegend: true
+    }]
+});
+    </script>
+  </body>
+
+</html>
