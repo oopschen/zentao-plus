@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="MySQL" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"></property>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${driverClass}"
+                        connectionURL="${connectionURL}"
+                        userId="${userId}"
+                        password="${password}">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="${modelPackage}" targetProject="${src_main_java}">
+            <property name="enableSubPackages" value="false"></property>
+            <property name="trimStrings" value="true"></property>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="${sqlMapperPackage}" targetProject="${src_main_resources}">
+            <property name="enableSubPackages" value="false"></property>
+        </sqlMapGenerator>
+
+
+        <javaClientGenerator targetPackage="${mapperPackage}" targetProject="${src_main_java}" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table tableName="zt_project"
+          enableDeleteByPrimaryKey="false"
+          enableDeleteByExample="false"
+          enableUpdateByExample="false"
+          enableUpdateByPrimaryKey="false"
+          enableInsert="false"
+        >
+        </table>
+
+        <table tableName="zt_task"
+          enableDeleteByPrimaryKey="false"
+          enableDeleteByExample="false"
+          enableUpdateByExample="false"
+          enableUpdateByPrimaryKey="false"
+          enableInsert="false"
+        >
+        </table>
+
+    </context>
+    
+</generatorConfiguration>

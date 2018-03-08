@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zentao.mapper.gen.ZtTaskMapper">
+  <resultMap id="BaseResultMap" type="org.zentao.entity.gen.ZtTask">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project" jdbcType="INTEGER" property="project" />
+    <result column="module" jdbcType="INTEGER" property="module" />
+    <result column="story" jdbcType="INTEGER" property="story" />
+    <result column="storyVersion" jdbcType="SMALLINT" property="storyversion" />
+    <result column="fromBug" jdbcType="INTEGER" property="frombug" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="pri" jdbcType="TINYINT" property="pri" />
+    <result column="estimate" jdbcType="REAL" property="estimate" />
+    <result column="consumed" jdbcType="REAL" property="consumed" />
+    <result column="left" jdbcType="REAL" property="left" />
+    <result column="deadline" jdbcType="DATE" property="deadline" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="color" jdbcType="CHAR" property="color" />
+    <result column="openedBy" jdbcType="VARCHAR" property="openedby" />
+    <result column="openedDate" jdbcType="TIMESTAMP" property="openeddate" />
+    <result column="assignedTo" jdbcType="VARCHAR" property="assignedto" />
+    <result column="assignedDate" jdbcType="TIMESTAMP" property="assigneddate" />
+    <result column="estStarted" jdbcType="DATE" property="eststarted" />
+    <result column="realStarted" jdbcType="DATE" property="realstarted" />
+    <result column="finishedBy" jdbcType="VARCHAR" property="finishedby" />
+    <result column="finishedDate" jdbcType="TIMESTAMP" property="finisheddate" />
+    <result column="canceledBy" jdbcType="VARCHAR" property="canceledby" />
+    <result column="canceledDate" jdbcType="TIMESTAMP" property="canceleddate" />
+    <result column="closedBy" jdbcType="VARCHAR" property="closedby" />
+    <result column="closedDate" jdbcType="TIMESTAMP" property="closeddate" />
+    <result column="closedReason" jdbcType="VARCHAR" property="closedreason" />
+    <result column="lastEditedBy" jdbcType="VARCHAR" property="lasteditedby" />
+    <result column="lastEditedDate" jdbcType="TIMESTAMP" property="lastediteddate" />
+    <result column="deleted" jdbcType="CHAR" property="deleted" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.zentao.entity.gen.ZtTask">
+    <result column="mailto" jdbcType="LONGVARCHAR" property="mailto" />
+    <result column="desc" jdbcType="LONGVARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, project, module, story, storyVersion, fromBug, name, type, pri, estimate, consumed, 
+    left, deadline, status, color, openedBy, openedDate, assignedTo, assignedDate, estStarted, 
+    realStarted, finishedBy, finishedDate, canceledBy, canceledDate, closedBy, closedDate, 
+    closedReason, lastEditedBy, lastEditedDate, deleted
+  </sql>
+  <sql id="Blob_Column_List">
+    mailto, desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.zentao.entity.gen.ZtTaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.zentao.entity.gen.ZtTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zt_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="countByExample" parameterType="org.zentao.entity.gen.ZtTaskExample" resultType="java.lang.Long">
+    select count(*) from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <resultMap id="BaseResultMap" type="org.zentao.entity.gen.ZtTask">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project" jdbcType="INTEGER" property="project" />
+    <result column="module" jdbcType="INTEGER" property="module" />
+    <result column="story" jdbcType="INTEGER" property="story" />
+    <result column="storyVersion" jdbcType="SMALLINT" property="storyversion" />
+    <result column="fromBug" jdbcType="INTEGER" property="frombug" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="pri" jdbcType="TINYINT" property="pri" />
+    <result column="estimate" jdbcType="REAL" property="estimate" />
+    <result column="consumed" jdbcType="REAL" property="consumed" />
+    <result column="left" jdbcType="REAL" property="left" />
+    <result column="deadline" jdbcType="DATE" property="deadline" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="color" jdbcType="CHAR" property="color" />
+    <result column="openedBy" jdbcType="VARCHAR" property="openedby" />
+    <result column="openedDate" jdbcType="TIMESTAMP" property="openeddate" />
+    <result column="assignedTo" jdbcType="VARCHAR" property="assignedto" />
+    <result column="assignedDate" jdbcType="TIMESTAMP" property="assigneddate" />
+    <result column="estStarted" jdbcType="DATE" property="eststarted" />
+    <result column="realStarted" jdbcType="DATE" property="realstarted" />
+    <result column="finishedBy" jdbcType="VARCHAR" property="finishedby" />
+    <result column="finishedDate" jdbcType="TIMESTAMP" property="finisheddate" />
+    <result column="canceledBy" jdbcType="VARCHAR" property="canceledby" />
+    <result column="canceledDate" jdbcType="TIMESTAMP" property="canceleddate" />
+    <result column="closedBy" jdbcType="VARCHAR" property="closedby" />
+    <result column="closedDate" jdbcType="TIMESTAMP" property="closeddate" />
+    <result column="closedReason" jdbcType="VARCHAR" property="closedreason" />
+    <result column="lastEditedBy" jdbcType="VARCHAR" property="lasteditedby" />
+    <result column="lastEditedDate" jdbcType="TIMESTAMP" property="lastediteddate" />
+    <result column="deleted" jdbcType="CHAR" property="deleted" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.zentao.entity.gen.ZtTask">
+    <result column="mailto" jdbcType="LONGVARCHAR" property="mailto" />
+    <result column="desc" jdbcType="LONGVARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, project, module, story, storyVersion, fromBug, name, type, pri, estimate, consumed, 
+    left, deadline, status, color, openedBy, openedDate, assignedTo, assignedDate, estStarted, 
+    realStarted, finishedBy, finishedDate, canceledBy, canceledDate, closedBy, closedDate, 
+    closedReason, lastEditedBy, lastEditedDate, deleted
+  </sql>
+  <sql id="Blob_Column_List">
+    mailto, desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="org.zentao.entity.gen.ZtTaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="org.zentao.entity.gen.ZtTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zt_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="countByExample" parameterType="org.zentao.entity.gen.ZtTaskExample" resultType="java.lang.Long">
+    select count(*) from zt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>
