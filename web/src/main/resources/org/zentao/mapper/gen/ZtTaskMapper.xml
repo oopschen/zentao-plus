@@ -157,6 +157,7 @@
     select
       sum(consumed) as consumedTime,
       sum(estimate) as estimatedTime,
+      count(*) as tolNum,
       type as typ
     from zt_task t
     <if test="_parameter != null">

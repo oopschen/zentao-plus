@@ -73,6 +73,7 @@ public class StatServiceImpl implements StatService {
 
       stat.setTaskTyp(tmpTaskByTyp.getTyp());
       stat.setConsumedTime(tmpTaskByTyp.getConsumedTime());
+      stat.setTotalNum(tmpTaskByTyp.getTolNum());
 
       result.add(stat);
     }

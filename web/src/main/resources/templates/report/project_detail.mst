@@ -13,7 +13,9 @@
 
       <div>
         <div class="charts" id="task-type-pie"></div>
+        <div class="charts" id="task-type-pie-num"></div>
       </div>
+
 
     </div>
 
@@ -26,6 +28,12 @@
         taskTypStat.push({name: '{{taskTyp}}', value: {{consumedTime}} })
       {{/taskStats}}
       renderPie('task-type-pie', '任务类型耗时报表', taskTypStat);
+
+      var taskTypStatNum = [];
+      {{#taskStats}}
+        taskTypStatNum.push({name: '{{taskTyp}}', value: {{totalNum}} })
+      {{/taskStats}}
+      renderPie('task-type-pie-num', '任务类型任务数报表', taskTypStatNum);
     </script>
   </body>
 </html>

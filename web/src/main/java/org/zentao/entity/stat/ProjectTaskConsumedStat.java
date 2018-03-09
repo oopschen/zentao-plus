@@ -8,9 +8,10 @@ package org.zentao.entity.stat;
  * @since 1.0
  */
 public class ProjectTaskConsumedStat {
+
   private String taskTyp;
   private Double consumedTime;
-  private Integer toltalNum;
+  private Integer totalNum;
 
   public ProjectTaskConsumedStat() {
   }
@@ -31,11 +32,11 @@ public class ProjectTaskConsumedStat {
     this.consumedTime = consumedTime;
   }
 
-  public Integer getToltalNum() {
-    return toltalNum;
+  public Integer getTotalNum() {
+    return totalNum;
   }
 
-  public void setToltalNum(Integer toltalNum) {
-    this.toltalNum = toltalNum;
+  public void setTotalNum(Integer totalNum) {
+    this.totalNum = totalNum;
   }
 }
