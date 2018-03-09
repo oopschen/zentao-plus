@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=1280" />
     <title>项目详情报告</title>
     <style type="text/css" media="screen">
-.one-line {
-  display: inline-block;
-}
 .charts {
   height: 400px;
   width: 100%;
 }
 .body {
   width: 1280px;
+}
+.one-line {
+  display: inline-block;
+  width: 30%;
 }
     </style>
   </head>
