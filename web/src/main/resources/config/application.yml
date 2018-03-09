@@ -6,7 +6,6 @@ logging.level:
 spring:
   mustache:
     suffix: .mst
-    prefix: /WEB-INF/templates/
   mvc:
     contentnegotiation:
       favor-path-extension: true

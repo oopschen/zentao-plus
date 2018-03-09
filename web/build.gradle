@@ -81,3 +81,7 @@ task mybatisGenerate {
 	}
 
 }
+
+bootRun {
+	sourceResources sourceSets.main
+}
