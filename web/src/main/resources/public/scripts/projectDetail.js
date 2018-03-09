@@ -3,7 +3,7 @@
  * @param domID id
  * @param title title
  * @param yAxis see the doc of hightcharts
- * @param data { name: {seriesName, value, yAxis}, ... }
+ * @param data { name: [{seriesName, value, yAxis}], ... }
 */
 function renderColumnBar(domID, title, yAxis, data) {
   if (!data ||!yAxis) {
@@ -11,26 +11,29 @@ function renderColumnBar(domID, title, yAxis, data) {
   }
 
   var cates = []
+  // seriesname: {name, data: [[name, value]], yAxis}
   var actualData = {}
   for (var prop in data) {
     cates.push(prop)
 
-    var ele = data[prop]
-    var seriesName = ele.seriesName
-    var seriesData = actualData[seriesName]
-    if (undefined === seriesData) {
-      seriesData = []
-      actualData[seriesName] = {
-        name: seriesName,
-        data: seriesData,
-        yAxis: ele.yAxis
+    for(var i=0; i< data[prop].length; i++) {
+      var ele = data[prop][i]
+      var seriesName = ele.seriesName
+      var seriesData = actualData[seriesName]
+      if (undefined === seriesData) {
+        seriesData = actualData[seriesName] = {
+          name: seriesName,
+          data: [],
+          yAxis: ele.yAxis
+        }
+
       }
 
-    }
+      seriesData.data.push([
+        prop, ele.value
+      ])
 
-    seriesData.push([
-      prop, ele.value
-    ])
+    }
 
   }
 

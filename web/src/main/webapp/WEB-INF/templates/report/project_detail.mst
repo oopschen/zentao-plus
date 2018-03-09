@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1280" />
+    <title>项目详情报告</title>
+    <style type="text/css" media="screen">
+.one-line {
+  display: inline-block;
+}
+.charts {
+  height: 400px;
+  width: 100%;
+}
+.body {
+  width: 1280px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <div class="charts" id="people-charts"></div>
+      </div>
+
+      <div>
+        <div class="charts one-line" id="task-type-pie"></div>
+        <div class="charts one-line" id="task-type-pie-num"></div>
+      </div>
+
+
+    </div>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="/public/scripts/projectDetail.js"></script>
+
+    <script charset="utf-8">
+      var taskTypStat = [];
+      var taskTypStatNum = [];
+      {{#taskStats}}
+        taskTypStat.push({name: '{{taskTyp}}', value: {{consumedTime}} })
+        taskTypStatNum.push({name: '{{taskTyp}}', value: {{totalNum}} })
+      {{/taskStats}}
+
+      renderPie('task-type-pie', '任务类型耗时报表', taskTypStat);
+      renderPie('task-type-pie-num', '任务类型任务数报表', taskTypStatNum);
+
+
+      var taskByMember = {};
+      var yAxis = [{
+            title: {
+                text: '总耗时'
+            }
+        }, {
+            opposite: true,
+            title: {
+                text: '任务数'
+            }
+      }];
+      {{#memberStats}}
+        taskByMember['{{name}}'] = []
+        taskByMember['{{name}}'].push({
+          seriesName: '实际总耗时',
+          value: {{tolConsumedTime}},
+        });
+        taskByMember['{{name}}'].push({
+          seriesName: '预计总耗时',
+          value: {{tolEstimatedTime}},
+        });
+        taskByMember['{{name}}'].push({
+          seriesName: '任务总数',
+          value: {{taskTolNum}},
+          yAxis: 1
+        });
+      {{/memberStats}}
+
+      renderColumnBar('people-charts', '项目成员工作情况报表', yAxis, taskByMember);
+    </script>
+  </body>
+</html>

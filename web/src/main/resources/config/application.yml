@@ -6,12 +6,17 @@ logging.level:
 spring:
   mustache:
     suffix: .mst
+    prefix: /WEB-INF/templates/
   mvc:
     contentnegotiation:
       favor-path-extension: true
     static-path-pattern: /public/**
   resources.static-locations:
     - "classpath:/public"
+  devtools:
+    restart:
+      exclude: public/**
+      enabled: true
 
 
 ds:
