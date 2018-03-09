@@ -11,8 +11,8 @@ public class MemberProjectConsumeStat {
 
   private String name;
   private Integer taskTolNum;
-  private Long tolConsumedTime;
-  private Long tolEstimatedTime;
+  private Double tolConsumedTime;
+  private Double tolEstimatedTime;
 
   public MemberProjectConsumeStat() {
   }
@@ -33,19 +33,19 @@ public class MemberProjectConsumeStat {
     this.taskTolNum = taskTolNum;
   }
 
-  public Long getTolEstimatedTime() {
-    return tolEstimatedTime;
-  }
-
-  public void setTolEstimatedTime(Long tolEstimatedTime) {
-    this.tolEstimatedTime = tolEstimatedTime;
-  }
-
-  public Long getTolConsumedTime() {
+  public Double getTolConsumedTime() {
     return tolConsumedTime;
   }
 
-  public void setTolConsumedTime(Long tolConsumedTime) {
+  public void setTolConsumedTime(Double tolConsumedTime) {
     this.tolConsumedTime = tolConsumedTime;
+  }
+
+  public Double getTolEstimatedTime() {
+    return tolEstimatedTime;
+  }
+
+  public void setTolEstimatedTime(Double tolEstimatedTime) {
+    this.tolEstimatedTime = tolEstimatedTime;
   }
 }

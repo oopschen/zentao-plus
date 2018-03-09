@@ -9,7 +9,7 @@ package org.zentao.entity.stat;
  */
 public class ProjectTaskConsumedStat {
   private String taskTyp;
-  private Long consumedTime;
+  private Double consumedTime;
   private Integer toltalNum;
 
   public ProjectTaskConsumedStat() {
@@ -23,11 +23,11 @@ public class ProjectTaskConsumedStat {
     this.taskTyp = taskTyp;
   }
 
-  public Long getConsumedTime() {
+  public Double getConsumedTime() {
     return consumedTime;
   }
 
-  public void setConsumedTime(Long consumedTime) {
+  public void setConsumedTime(Double consumedTime) {
     this.consumedTime = consumedTime;
   }
 

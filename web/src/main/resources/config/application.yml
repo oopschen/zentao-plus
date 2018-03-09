@@ -28,3 +28,8 @@ ds:
 mybatis:
   map-underscore-to-camel-case: true
   logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+app:
+  task-status:
+    - done
+    - closed

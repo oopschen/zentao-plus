@@ -6,7 +6,12 @@
     <title>项目报告</title>
   </head>
   <body>
-    hello {{word}}
-    <div class="container"></div>
+    <div class="container">
+      <ul>
+        {{#projects}}
+          <li><a href="/report/project/{{id}}">{{name}}</a></li>
+        {{/projects}}
+      </ul>
+    </div>
   </body>
 </html>

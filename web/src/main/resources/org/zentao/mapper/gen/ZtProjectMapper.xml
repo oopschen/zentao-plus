@@ -65,8 +65,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, isCat, catID, `type`, parent, `name`, code, `begin`, `end`, `days`, `status`, 
-    statge, pri, openedBy, openedDate, openedVersion, closedBy, closedDate, canceledBy, 
+    id, isCat, catID, `type`, parent, `name`, code, `begin`, `end`, `days`, `status`,
+    statge, pri, openedBy, openedDate, openedVersion, closedBy, closedDate, canceledBy,
     canceledDate, PO, PM, QD, RD, team, acl, `order`, deleted
   </sql>
   <sql id="Blob_Column_List">
@@ -103,7 +103,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -116,4 +116,5 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+
 </mapper>
