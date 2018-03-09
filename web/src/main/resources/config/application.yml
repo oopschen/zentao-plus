@@ -9,6 +9,9 @@ spring:
   mvc:
     contentnegotiation:
       favor-path-extension: true
+    static-path-pattern: /public/**
+  resources.static-locations:
+    - "classpath:/public"
 
 
 ds:

@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
+import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.mapper.gen.ZtProjectMapper;
 import org.zentao.service.StatService;
 
@@ -21,8 +24,13 @@ public class ReportController {
   private StatService statService;
 
   @GetMapping("/project/{projectID}")
-  public String projectReport() {
-    return null;
+  public String projectReport(@PathVariable Integer projectID, ModelMap modelMap) {
+    List<MemberProjectConsumeStat> memberProjectConsumeStats = statService
+        .statTaskByMember(projectID);
+    List<ProjectTaskConsumedStat> projectTaskConsumedStats = statService.statTaskByTyp(projectID);
+    modelMap.put("memberStats", memberProjectConsumeStats);
+    modelMap.put("taskStats", projectTaskConsumedStats);
+    return "report/project_detail";
   }
 
   @GetMapping("/project")
