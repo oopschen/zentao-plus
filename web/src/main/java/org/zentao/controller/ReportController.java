@@ -11,6 +11,7 @@ import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
+import org.zentao.entity.stat.ProjectTimeUsageStat;
 import org.zentao.mapper.gen.ZtProjectMapper;
 import org.zentao.service.StatService;
 
@@ -28,8 +29,12 @@ public class ReportController {
     List<MemberProjectConsumeStat> memberProjectConsumeStats = statService
         .statTaskByMember(projectID);
     List<ProjectTaskConsumedStat> projectTaskConsumedStats = statService.statTaskByTyp(projectID);
+
+    ProjectTimeUsageStat projectTimeUsageStat = statService
+        .statProjectTimeUsage(memberProjectConsumeStats);
     modelMap.put("memberStats", memberProjectConsumeStats);
     modelMap.put("taskStats", projectTaskConsumedStats);
+    modelMap.put("projectTimeUsage", projectTimeUsageStat);
     return "report/project_detail";
   }
 

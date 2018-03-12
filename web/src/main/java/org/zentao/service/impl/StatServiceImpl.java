@@ -15,6 +15,7 @@ import org.zentao.entity.mybatis.StatTaskByTypResult;
 import org.zentao.entity.mybatis.StatTaskConsumedByMemberResult;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
+import org.zentao.entity.stat.ProjectTimeUsageStat;
 import org.zentao.mapper.gen.ZtTaskMapper;
 import org.zentao.mapper.gen.ZtTeamMapper;
 import org.zentao.service.StatService;
@@ -124,5 +125,25 @@ public class StatServiceImpl implements StatService {
     }
 
     return memberProjectConsumeStats;
+  }
+
+  @Override
+  public ProjectTimeUsageStat statProjectTimeUsage(
+      List<MemberProjectConsumeStat> memberProjectConsumeStats) {
+    ProjectTimeUsageStat result = new ProjectTimeUsageStat();
+    if (CollectionUtils.isEmpty(memberProjectConsumeStats)) {
+      result.setTolTime(1d);
+      result.setUsageTime(0d);
+      return result;
+    }
+
+    double tolTime = 0, tolUsage = 0;
+    for(MemberProjectConsumeStat tmp : memberProjectConsumeStats) {
+      tolTime += tmp.getAvailTime();
+      tolUsage += tmp.getTolConsumedTime();
+    }
+    result.setTolTime(tolTime);
+    result.setUsageTime(tolUsage);
+    return result;
   }
 }

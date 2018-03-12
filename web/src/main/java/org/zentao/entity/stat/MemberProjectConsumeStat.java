@@ -26,8 +26,7 @@ public class MemberProjectConsumeStat {
     availPercentage = new Lambda() {
       @Override
       public void execute(Fragment frag, Writer out) throws IOException {
-        out.write(String.format("%.2f",
-            null == availTime || 0 == availTime.intValue() ? 0 : tolConsumedTime / availTime));
+        out.write(String.format("%.2f", tolConsumedTime / availTime));
 
       }
     };

@@ -30,7 +30,8 @@
       </div>
 
       <div>
-        <div class="charts" id="people-time-usage-charts"></div>
+        <div class="charts one-line" id="people-time-usage-charts"></div>
+        <div class="charts one-line" id="project-time-usage-charts"></div>
       </div>
 
     </div>
@@ -101,6 +102,15 @@
         }];
       renderColumnBar('people-time-usage-charts', '项目成员工作时间利用率报表', timeUsageYAxis,
         timeUsageByMember, seriesTooltip);
+
+
+      var projectTimeUsage= [];
+      {{#projectTimeUsage}}
+        projectTimeUsage.push({name: '已耗时', value: {{usageTime}} })
+        projectTimeUsage.push({name: '剩余', value: {{#timeLeft}}{{/timeLeft}} })
+      {{/projectTimeUsage}}
+
+      renderPie('project-time-usage-charts', '工程耗时', projectTimeUsage, pieTooltip);
     </script>
   </body>
 </html>
