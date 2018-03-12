@@ -10,4 +10,5 @@ public interface StatService {
 
   List<ProjectTaskConsumedStat> statTaskByTyp(Integer projectID);
 
+  List<MemberProjectConsumeStat> queryAvailTimeByMember(Integer projectID);
 }

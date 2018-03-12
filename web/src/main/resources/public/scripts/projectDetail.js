@@ -5,7 +5,7 @@
  * @param yAxis see the doc of hightcharts
  * @param data { name: [{seriesName, value, yAxis}], ... }
 */
-function renderColumnBar(domID, title, yAxis, data) {
+function renderColumnBar(domID, title, yAxis, data, tooltip) {
   if (!data ||!yAxis) {
     return
   }
@@ -47,6 +47,7 @@ function renderColumnBar(domID, title, yAxis, data) {
       chart: {
           type: 'column'
       },
+      tooltip: tooltip,
 
       title: {
           text: title
@@ -76,7 +77,7 @@ function renderColumnBar(domID, title, yAxis, data) {
  * @param title
  * @param data [{name: '', value: ''}, ...]
 */
-function renderPie(domID, title, data) {
+function renderPie(domID, title, data, tooltip) {
   if (!data && 1>data.length) {
     return
   }
@@ -94,9 +95,7 @@ function renderPie(domID, title, data) {
       title: {
           text: title
       },
-      tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
+      tooltip: tooltip,
 
       xAxis: {
           categories: cates

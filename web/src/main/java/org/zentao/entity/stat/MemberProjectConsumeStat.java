@@ -1,5 +1,11 @@
 package org.zentao.entity.stat;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template.Fragment;
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * 项目相关成员统计
  *
@@ -13,8 +19,18 @@ public class MemberProjectConsumeStat {
   private Integer taskTolNum;
   private Double tolConsumedTime;
   private Double tolEstimatedTime;
+  private Double availTime;
+  private Mustache.Lambda availPercentage;
 
   public MemberProjectConsumeStat() {
+    availPercentage = new Lambda() {
+      @Override
+      public void execute(Fragment frag, Writer out) throws IOException {
+        out.write(String.format("%.2f",
+            null == availTime || 0 == availTime.intValue() ? 0 : tolConsumedTime / availTime));
+
+      }
+    };
   }
 
   public String getName() {
@@ -48,4 +64,13 @@ public class MemberProjectConsumeStat {
   public void setTolEstimatedTime(Double tolEstimatedTime) {
     this.tolEstimatedTime = tolEstimatedTime;
   }
+
+  public Double getAvailTime() {
+    return availTime;
+  }
+
+  public void setAvailTime(Double availTime) {
+    this.availTime = availTime;
+  }
+
 }
