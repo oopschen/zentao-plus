@@ -41,7 +41,7 @@
 
     <script charset="utf-8">
       var pieTooltip = {
-          pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+          pointFormat: '{series.name}: <b>{point.percentage:.2f}%({point.y:0.2f}hrs)</b>'
       };
       var seriesTooltip = {
           pointFormat: '{series.name}: <b>{point.y}</b>'
