@@ -19,6 +19,9 @@
     </style>
   </head>
   <body>
+
+    <div class="title">{{projectInfo.name}}</div>
+
     <div class="container">
       <div>
         <div class="charts" id="people-charts"></div>

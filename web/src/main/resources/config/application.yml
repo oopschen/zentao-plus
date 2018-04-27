@@ -14,7 +14,9 @@ spring:
     - "classpath:/public"
   devtools:
     restart:
-      exclude: public/**
+      exclude:
+          - "classpath:/public/**"
+          - "classpath:/templates/**"
       enabled: true
   datasource:
     url: jdbc:mysql://localhost:7788/zentao?useUnicode=true&useSSL=false&characterEncoding=utf-8&useSSL=false

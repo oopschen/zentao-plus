@@ -32,9 +32,12 @@ public class ReportController {
 
     ProjectTimeUsageStat projectTimeUsageStat = statService
         .statProjectTimeUsage(memberProjectConsumeStats);
+
+    ZtProject ztProject = ztProjectMapper.selectByPrimaryKey(projectID);
     modelMap.put("memberStats", memberProjectConsumeStats);
     modelMap.put("taskStats", projectTaskConsumedStats);
     modelMap.put("projectTimeUsage", projectTimeUsageStat);
+    modelMap.put("projectInfo", ztProject);
     return "report/project_detail";
   }
 
