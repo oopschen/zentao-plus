@@ -62,6 +62,15 @@
           enableInsert="false"
         >
         </table>
+
+        <table tableName="zt_projectstory"
+          enableDeleteByPrimaryKey="false"
+          enableDeleteByExample="false"
+          enableUpdateByExample="false"
+          enableUpdateByPrimaryKey="false"
+          enableInsert="false"
+        >
+        </table>
     </context>
     
 </generatorConfiguration>
