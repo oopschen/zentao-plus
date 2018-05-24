@@ -2,6 +2,7 @@ package org.zentao.service;
 
 import java.util.List;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
 
@@ -14,4 +15,6 @@ public interface StatService {
   List<MemberProjectConsumeStat> queryAvailTimeByMember(Integer projectID);
 
   ProjectTimeUsageStat statProjectTimeUsage(List<MemberProjectConsumeStat> memberProjectConsumeStats);
+
+  ProjectStoryStat statStoryByProject(Integer projectID);
 }

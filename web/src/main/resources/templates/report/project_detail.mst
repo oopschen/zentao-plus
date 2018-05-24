@@ -26,6 +26,9 @@
       <div>
         <div class="charts" id="people-charts"></div>
       </div>
+      <div>
+        <div class="charts" id="people-time-usage-charts"></div>
+      </div>
 
       <div>
         <div class="charts one-line" id="task-type-pie"></div>
@@ -33,31 +36,43 @@
       </div>
 
       <div>
-        <div class="charts one-line" id="people-time-usage-charts"></div>
         <div class="charts one-line" id="project-time-usage-charts"></div>
+        <div class="charts one-line" id="project-story-charts"></div>
       </div>
 
     </div>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="/public/scripts/common-charts.js"></script>
     <script src="/public/scripts/projectDetail.js"></script>
 
     <script charset="utf-8">
-      var pieTooltip = {
-          pointFormat: '{series.name}: <b>{point.percentage:.2f}%({point.y:0.2f}hrs)</b>'
-      };
+      var pieTooltip = percentageToolTip('hrs');
       var seriesTooltip = {
           pointFormat: '{series.name}: <b>{point.y}</b>'
       };
+      var pieNumPercentageTooltip = percentageToolTip('');
+
       var taskTypStat = [];
+
       var taskTypStatNum = [];
       {{#taskStats}}
         taskTypStat.push({name: '{{taskTyp}}', value: {{consumedTime}} })
         taskTypStatNum.push({name: '{{taskTyp}}', value: {{totalNum}} })
       {{/taskStats}}
 
+      {{#projectStoryStat}}
+        var projectStoryStat = [
+          {name: '已完成', value: {{completeStoryCount}} },
+          {name: '未完成', value: {{#leftStoryCount}}{{/leftStoryCount}} }
+        ];
+      {{/projectStoryStat}}
+
+
       renderPie('task-type-pie', '任务类型耗时报表', taskTypStat, pieTooltip);
       renderPie('task-type-pie-num', '任务类型任务数报表', taskTypStatNum, pieTooltip);
+      renderPie('project-story-charts', '需求完成度',
+      projectStoryStat, pieNumPercentageTooltip);
 
 
       var taskByMember = {};

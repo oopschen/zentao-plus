@@ -10,15 +10,17 @@ import org.zentao.config.props.ApplicationConfiguration;
 import org.zentao.entity.gen.ZtTaskExample;
 import org.zentao.entity.gen.ZtTeam;
 import org.zentao.entity.gen.ZtTeamExample;
+import org.zentao.entity.mybatis.MemberStoryStat;
 import org.zentao.entity.mybatis.StatTaskByTypResult;
 import org.zentao.entity.mybatis.StatTaskConsumedByMemberResult;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
-import org.zentao.entity.mybatis.MemberStoryStat;
+import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
 import org.zentao.mapper.gen.ZtTaskMapper;
 import org.zentao.mapper.gen.ZtTeamMapper;
 import org.zentao.mapper.stat.PersonStatMapper;
+import org.zentao.mapper.stat.ProjectStoryMapper;
 import org.zentao.service.StatService;
 
 @Service
@@ -32,6 +34,8 @@ public class StatServiceImpl implements StatService {
   private ZtTeamMapper ztTeamMapper;
   @Autowired
   private PersonStatMapper personStatMapper;
+  @Autowired
+  private ProjectStoryMapper projectStoryMapper;
 
   @Override
   public List<MemberProjectConsumeStat> statTaskByMember(Integer projectID) {
@@ -163,5 +167,22 @@ public class StatServiceImpl implements StatService {
     result.setTolTime(tolTime);
     result.setUsageTime(tolUsage);
     return result;
+  }
+
+  @Override
+  public ProjectStoryStat statStoryByProject(Integer projectID) {
+    if (null == projectID) {
+      return null;
+    }
+
+    ProjectStoryStat projectStoryStat = new ProjectStoryStat();
+    projectStoryStat.setTolStoryCount(
+        projectStoryMapper.statStoryByProject(projectID, null)
+    );
+    projectStoryStat.setCompleteStoryCount(
+        projectStoryMapper.statStoryByProject(projectID, applicationConfiguration.getStoryStatus())
+    );
+
+    return projectStoryStat;
   }
 }

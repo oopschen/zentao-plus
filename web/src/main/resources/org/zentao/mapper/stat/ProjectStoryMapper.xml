@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zentao.mapper.stat.ProjectStoryMapper">
+
+  <select id="statStoryByProject" resultType="int">
+    select
+      count(distinct ps.story)
+    from zt_projectstory ps
+    <if test="null != storyStatus">
+      inner join zt_story s on ps.story = s.id
+    </if>
+    <where>
+      ps.project = #{projectID}
+
+      <if test="null != storyStatus">
+        and s.status in
+        <foreach collection="storyStatus" item="item" separator="," open="(" close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+
+  </select>
+
+</mapper>

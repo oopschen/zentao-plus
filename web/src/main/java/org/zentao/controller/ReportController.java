@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
 import org.zentao.mapper.gen.ZtProjectMapper;
@@ -33,11 +34,14 @@ public class ReportController {
     ProjectTimeUsageStat projectTimeUsageStat = statService
         .statProjectTimeUsage(memberProjectConsumeStats);
 
+    ProjectStoryStat projectStoryStat = statService.statStoryByProject(projectID);
+
     ZtProject ztProject = ztProjectMapper.selectByPrimaryKey(projectID);
     modelMap.put("memberStats", memberProjectConsumeStats);
     modelMap.put("taskStats", projectTaskConsumedStats);
     modelMap.put("projectTimeUsage", projectTimeUsageStat);
     modelMap.put("projectInfo", ztProject);
+    modelMap.put("projectStoryStat", projectStoryStat);
     return "report/project_detail";
   }
 
