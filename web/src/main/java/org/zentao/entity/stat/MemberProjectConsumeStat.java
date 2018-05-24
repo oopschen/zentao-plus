@@ -20,6 +20,7 @@ public class MemberProjectConsumeStat {
   private Double tolConsumedTime;
   private Double tolEstimatedTime;
   private Double availTime;
+  private Integer tolStoryCount;
   private Mustache.Lambda availPercentage;
 
   public MemberProjectConsumeStat() {
@@ -72,4 +73,11 @@ public class MemberProjectConsumeStat {
     this.availTime = availTime;
   }
 
+  public Integer getTolStoryCount() {
+    return tolStoryCount;
+  }
+
+  public void setTolStoryCount(Integer tolStoryCount) {
+    this.tolStoryCount = tolStoryCount;
+  }
 }

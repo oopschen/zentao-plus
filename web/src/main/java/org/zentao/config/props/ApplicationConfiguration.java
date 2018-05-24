@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationConfiguration {
 
   private List<String> taskStatus;
+  private List<String> storyStatus;
 
   public ApplicationConfiguration() {
   }
@@ -19,5 +20,13 @@ public class ApplicationConfiguration {
 
   public void setTaskStatus(List<String> taskStatus) {
     this.taskStatus = taskStatus;
+  }
+
+  public List<String> getStoryStatus() {
+    return storyStatus;
+  }
+
+  public void setStoryStatus(List<String> storyStatus) {
+    this.storyStatus = storyStatus;
   }
 }

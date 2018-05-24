@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
-import org.apache.commons.collections4.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zentao.config.props.ApplicationConfiguration;
@@ -14,10 +13,12 @@ import org.zentao.entity.gen.ZtTeamExample;
 import org.zentao.entity.mybatis.StatTaskByTypResult;
 import org.zentao.entity.mybatis.StatTaskConsumedByMemberResult;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.mybatis.MemberStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
 import org.zentao.mapper.gen.ZtTaskMapper;
 import org.zentao.mapper.gen.ZtTeamMapper;
+import org.zentao.mapper.stat.PersonStatMapper;
 import org.zentao.service.StatService;
 
 @Service
@@ -29,6 +30,8 @@ public class StatServiceImpl implements StatService {
   private ApplicationConfiguration applicationConfiguration;
   @Autowired
   private ZtTeamMapper ztTeamMapper;
+  @Autowired
+  private PersonStatMapper personStatMapper;
 
   @Override
   public List<MemberProjectConsumeStat> statTaskByMember(Integer projectID) {
@@ -45,32 +48,47 @@ public class StatServiceImpl implements StatService {
         .andStatusIn(applicationConfiguration.getTaskStatus())
     ;
 
+    // query time consumed stat
     List<StatTaskConsumedByMemberResult> statTaskConsumedByMemberResults = ztTaskMapper
         .statTaskConsumedByMember(queryCondition);
     if (CollectionUtils.isEmpty(statTaskConsumedByMemberResults)) {
       return null;
     }
 
+    // query story related stat
+    List<MemberStoryStat> memberStoryStats = personStatMapper
+        .statMemberStoryCount(projectID, applicationConfiguration.getStoryStatus());
+
     for (final MemberProjectConsumeStat tmp : memberProjectConsumeStats) {
       StatTaskConsumedByMemberResult foundValue = IterableUtils
           .find(statTaskConsumedByMemberResults,
-              new Predicate<StatTaskConsumedByMemberResult>() {
-                @Override
-                public boolean evaluate(StatTaskConsumedByMemberResult object) {
-                  return object.getMember().equals(tmp.getName());
-                }
-              });
+              object -> object.getMember().equals(tmp.getName())
+          );
+
+      // set time consumed stat
       if (null == foundValue) {
         tmp.setTolConsumedTime(0d);
         tmp.setTolEstimatedTime(0d);
         tmp.setTaskTolNum(0);
-        continue;
+      } else {
+        tmp.setTolConsumedTime(foundValue.getConsumedTime());
+        tmp.setTolEstimatedTime(foundValue.getEstimatedTime());
+        tmp.setTaskTolNum(foundValue.getTaskNum());
+
       }
 
-      tmp.setTolConsumedTime(foundValue.getConsumedTime());
-      tmp.setTolEstimatedTime(foundValue.getEstimatedTime());
-      tmp.setTaskTolNum(foundValue.getTaskNum());
+      // set story stat
+      MemberStoryStat foundMemberStoryStat = IterableUtils.find(memberStoryStats,
+          object -> object.getMember().equals(tmp.getName())
+      );
+      if (null != foundMemberStoryStat) {
+        tmp.setTolStoryCount(foundMemberStoryStat.getStoryCount());
+      } else {
+        tmp.setTolStoryCount(Integer.valueOf(0));
+      }
+
     }
+
     return memberProjectConsumeStats;
   }
 
@@ -138,7 +156,7 @@ public class StatServiceImpl implements StatService {
     }
 
     double tolTime = 0, tolUsage = 0;
-    for(MemberProjectConsumeStat tmp : memberProjectConsumeStats) {
+    for (MemberProjectConsumeStat tmp : memberProjectConsumeStats) {
       tolTime += tmp.getAvailTime();
       tolUsage += tmp.getTolConsumedTime();
     }

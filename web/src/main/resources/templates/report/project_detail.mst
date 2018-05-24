@@ -63,29 +63,34 @@
       var taskByMember = {};
       var yAxis = [{
             title: {
-                text: '总耗时'
+                text: '耗时'
             }
         }, {
             opposite: true,
             title: {
-                text: '任务数'
+                text: '个数'
             }
       }];
       var timeUsageByMember = {};
 
       {{#memberStats}}
         taskByMember['{{name}}'] = []
-        taskByMember['{{name}}'].push({
+        taskByMember['{{name}}'] = taskByMember['{{name}}'].concat({
           seriesName: '实际总耗时',
           value: {{tolConsumedTime}},
-        });
-        taskByMember['{{name}}'].push({
+        },
+        {
           seriesName: '预计总耗时',
           value: {{tolEstimatedTime}},
-        });
-        taskByMember['{{name}}'].push({
+        },
+        {
           seriesName: '任务总数',
           value: {{taskTolNum}},
+          yAxis: 1
+        },
+        {
+          seriesName: '研发需求数',
+          value: {{tolStoryCount}},
           yAxis: 1
         });
 

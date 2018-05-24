@@ -35,3 +35,5 @@ app:
   task-status:
     - done
     - closed
+  story-status:
+    - closed
