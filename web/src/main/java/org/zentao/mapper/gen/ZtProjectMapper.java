@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
+import org.zentao.entity.stat.MemberProjectConsumeStat;
 import org.zentao.entity.stat.ProjectProfileStat;
 
 public interface ZtProjectMapper {
@@ -33,5 +34,11 @@ public interface ZtProjectMapper {
   List<ProjectProfileStat> statProjectMembers(
       @Param("createDate") LocalDate createDate,
       @Param("endDate") LocalDate endDate
+  );
+
+  List<MemberProjectConsumeStat> statProjectMemberTimeUsage(
+      @Param("createDate") LocalDate createDate,
+      @Param("endDate") LocalDate endDate,
+      @Param("taskStatus") List<String> taskStatus
   );
 }
