@@ -1,15 +1,19 @@
 package org.zentao.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.stat.ProjectProfileStat;
 import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
@@ -56,4 +60,23 @@ public class ReportController {
     return "report/project";
   }
 
+  @GetMapping("/project/summary")
+  public String projectSummary(
+      @RequestParam(required = false) LocalDate start,
+      @RequestParam(required = false) LocalDate end,
+      ModelMap modelMap
+  ) {
+    LocalDate actualStart = start, actualEnd = end;
+    if (null == actualStart) {
+      actualStart = LocalDate.now().minusMonths(6);
+    }
+    if (null == actualEnd) {
+      actualEnd = LocalDate.now();
+    }
+
+    List<ProjectProfileStat> projectProfileStats = statService
+        .statProjectsByTime(actualStart, actualEnd);
+    modelMap.put("projectStats", projectProfileStats);
+    return "report/project_summary";
+  }
 }
