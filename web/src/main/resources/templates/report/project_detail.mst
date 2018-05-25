@@ -51,7 +51,7 @@
       var seriesTooltip = {
           pointFormat: '{series.name}: <b>{point.y}</b>'
       };
-      var pieNumPercentageTooltip = percentageToolTip('');
+      var pieNumPercentageTooltip = percentageToolTip('个');
 
       var taskTypStat = [];
 
@@ -70,7 +70,7 @@
 
 
       renderPie('task-type-pie', '任务类型耗时报表', taskTypStat, pieTooltip);
-      renderPie('task-type-pie-num', '任务类型任务数报表', taskTypStatNum, pieTooltip);
+      renderPie('task-type-pie-num', '任务类型任务数报表', taskTypStatNum, pieNumPercentageTooltip);
       renderPie('project-story-charts', '需求完成度',
       projectStoryStat, pieNumPercentageTooltip);
 
