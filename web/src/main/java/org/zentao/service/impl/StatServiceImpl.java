@@ -3,8 +3,10 @@ package org.zentao.service.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.zentao.config.props.ApplicationConfiguration;
+import org.zentao.entity.gen.ZtProject;
+import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.gen.ZtTaskExample;
 import org.zentao.entity.gen.ZtTeam;
 import org.zentao.entity.gen.ZtTeamExample;
@@ -257,6 +261,35 @@ public class StatServiceImpl implements StatService {
       }
     }
 
+    if (CollectionUtils.isEmpty(results)) {
+      return null;
+    }
+
+    List<Integer> projectIDs = new ArrayList<>(results.size());
+    for(final ProjectProfileStat tmp : results) {
+      projectIDs.add(tmp.getId());
+    }
+
+    List<ZtProject> ztProjects = queryProjectsInfoByIDs(projectIDs);
+    for(final ProjectProfileStat tmp : results) {
+      ZtProject ztProject = IterableUtils
+          .find(ztProjects, object -> object.getId().equals(tmp.getId()));
+      if (null == ztProject) {
+        continue;
+      }
+
+      tmp.setName(ztProject.getName());
+    }
     return results;
+  }
+
+  private List<ZtProject> queryProjectsInfoByIDs(List<Integer> projectID) {
+    Set<Integer> projectIDs = new HashSet<>();
+    projectIDs.addAll(projectID);
+    ZtProjectExample queryByIDs = new ZtProjectExample();
+    queryByIDs.or()
+        .andIdIn(new ArrayList<>(projectID));
+
+    return ztProjectMapper.selectByExample(queryByIDs);
   }
 }

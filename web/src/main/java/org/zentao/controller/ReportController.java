@@ -79,4 +79,5 @@ public class ReportController {
     modelMap.put("projectStats", projectProfileStats);
     return "report/project_summary";
   }
+
 }
