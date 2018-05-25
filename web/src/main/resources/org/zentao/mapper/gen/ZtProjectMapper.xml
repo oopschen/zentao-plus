@@ -117,4 +117,103 @@
     </if>
   </select>
 
+
+  <!--do not delete -->
+  <select id="statProjectTimeConsumed" resultType="org.zentao.entity.stat.ProjectProfileStat">
+    select
+      p.id as id,
+      sum(consumed) as totalTimeUsage
+    from zt_project p
+    inner join zt_task t on p.id = t.project
+    <where>
+      <if test="null != createDate">
+        p.begin <![CDATA[ >= ]]> #{createDate}
+      </if>
+      <if test="null != endDate">
+        and p.begin <![CDATA[ < ]]> #{endDate}
+      </if>
+      <if test="null != taskStatus">
+        and t.status in
+        <foreach collection="taskStatus" item="item" separator="," open="(" close=")">
+          #{item}
+        </foreach>
+      </if>
+
+      and t.deleted = '0'
+      and p.deleted = '0'
+    </where>
+    group by p.id
+    order by p.begin asc
+
+  </select>
+
+  <select id="statProjectStories" resultType="org.zentao.entity.stat.ProjectProfileStat">
+    select
+      p.id as id,
+      count(s.id) as totalStories
+    from zt_project p
+    inner join zt_projectstory ps  on p.id = ps.project
+    inner join zt_story s  on s.id = ps.story
+    <where>
+      <if test="null != createDate">
+        p.begin <![CDATA[ >= ]]> #{createDate}
+      </if>
+      <if test="null != endDate">
+        and p.begin <![CDATA[ < ]]> #{endDate}
+      </if>
+      <if test="null != storyStatus">
+        and s.status in
+        <foreach collection="storyStatus" item="item" separator="," open="(" close=")">
+          #{item}
+        </foreach>
+      </if>
+
+      and s.deleted = '0'
+      and p.deleted = '0'
+    </where>
+    group by p.id
+    order by p.begin asc
+
+  </select>
+
+  <select id="statProjectMembers" resultType="org.zentao.entity.stat.ProjectProfileStat">
+    select
+      p.id as id,
+      count(account) as totalMembers
+    from zt_project p
+    inner join zt_team t on p.id = t.project
+    <where>
+      <if test="null != createDate">
+        p.begin <![CDATA[ >= ]]> #{createDate}
+      </if>
+      <if test="null != endDate">
+        and p.begin <![CDATA[ < ]]> #{endDate}
+      </if>
+
+      and p.deleted = '0'
+    </where>
+    group by p.id
+    order by p.begin asc
+  </select>
+
+  <select id="statProjectBugs" resultType="org.zentao.entity.stat.ProjectProfileStat">
+    select
+      p.id as id,
+      count(t.id) as totalBugs
+    from zt_project p
+    inner join zt_bug t on p.id = t.project
+    <where>
+      <if test="null != createDate">
+        p.begin <![CDATA[ >= ]]> #{createDate}
+      </if>
+      <if test="null != endDate">
+        and p.begin <![CDATA[ < ]]> #{endDate}
+      </if>
+
+      and t.deleted = '0'
+      and p.deleted = '0'
+    </where>
+    group by p.id
+    order by p.begin asc
+  </select>
 </mapper>

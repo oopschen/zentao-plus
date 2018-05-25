@@ -2,11 +2,20 @@ package org.zentao.entity.stat;
 
 public class ProjectProfileStat {
 
+  private Integer id;
   private String name;
   private Integer totalStories;
   private Integer totalBugs;
   private Integer totalMembers;
-  private Integer totalTimeUsage;
+  private Double totalTimeUsage;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -40,11 +49,11 @@ public class ProjectProfileStat {
     this.totalMembers = totalMembers;
   }
 
-  public Integer getTotalTimeUsage() {
+  public Double getTotalTimeUsage() {
     return totalTimeUsage;
   }
 
-  public void setTotalTimeUsage(Integer totalTimeUsage) {
+  public void setTotalTimeUsage(Double totalTimeUsage) {
     this.totalTimeUsage = totalTimeUsage;
   }
 }
