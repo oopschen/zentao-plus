@@ -37,3 +37,12 @@ app:
     - closed
   story-status:
     - closed
+
+thread:
+  query-pool:
+    max-size: 500
+    core-size: 10
+    keep-alive-sec: 60
+    backqueue-size: 100
+
+

@@ -1,10 +1,19 @@
 package org.zentao.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.zentao.config.props.ApplicationConfiguration;
 import org.zentao.entity.gen.ZtTaskExample;
@@ -14,17 +23,22 @@ import org.zentao.entity.mybatis.MemberStoryStat;
 import org.zentao.entity.mybatis.StatTaskByTypResult;
 import org.zentao.entity.mybatis.StatTaskConsumedByMemberResult;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
+import org.zentao.entity.stat.ProjectProfileStat;
 import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
+import org.zentao.mapper.gen.ZtProjectMapper;
 import org.zentao.mapper.gen.ZtTaskMapper;
 import org.zentao.mapper.gen.ZtTeamMapper;
 import org.zentao.mapper.stat.PersonStatMapper;
 import org.zentao.mapper.stat.ProjectStoryMapper;
 import org.zentao.service.StatService;
+import org.zentao.util.BeanUtil;
 
 @Service
 public class StatServiceImpl implements StatService {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(StatServiceImpl.class);
 
   @Autowired
   private ZtTaskMapper ztTaskMapper;
@@ -36,6 +50,11 @@ public class StatServiceImpl implements StatService {
   private PersonStatMapper personStatMapper;
   @Autowired
   private ProjectStoryMapper projectStoryMapper;
+  @Autowired
+  private ZtProjectMapper ztProjectMapper;
+  @Qualifier("query")
+  @Autowired
+  private ExecutorService executorService;
 
   @Override
   public List<MemberProjectConsumeStat> statTaskByMember(Integer projectID) {
@@ -184,5 +203,60 @@ public class StatServiceImpl implements StatService {
     );
 
     return projectStoryStat;
+  }
+
+  @Override
+  public List<ProjectProfileStat> statProjectsByTime(LocalDate start, LocalDate end) {
+    if (null == start || null == end) {
+      return null;
+    }
+    List<Future<List<ProjectProfileStat>>> resultFutures = new ArrayList<>(4);
+
+    resultFutures.add(executorService.submit(() -> ztProjectMapper
+        .statProjectStories(start, end, applicationConfiguration.getStoryStatus())));
+
+    resultFutures.add(executorService.submit(() -> ztProjectMapper.statProjectBugs(start, end)));
+    resultFutures.add(executorService.submit(() -> ztProjectMapper.statProjectMembers(start, end)));
+    resultFutures.add(executorService.submit(() -> ztProjectMapper
+        .statProjectTimeConsumed(start, end, applicationConfiguration.getTaskStatus())));
+
+    List<ProjectProfileStat> results = new LinkedList<>();
+    for (Future<List<ProjectProfileStat>> future : resultFutures) {
+      boolean isBreak = false;
+      List<ProjectProfileStat> stats = null;
+
+      while (!isBreak) {
+        try {
+          stats = future.get();
+          isBreak = true;
+        } catch (InterruptedException | ExecutionException e) {
+          LOGGER.error("future", e);
+        }
+      }
+
+      if (null == stats) {
+        continue;
+      }
+
+      for (final ProjectProfileStat tmp : stats) {
+        ProjectProfileStat foundResult = IterableUtils
+            .find(results, object -> object.getId().equals(tmp.getId()));
+        if (null == foundResult) {
+          results.add(tmp);
+          continue;
+        }
+
+        // copy data
+        try {
+          BeanUtil
+              .copyPropsExcludeNull(foundResult, tmp, "totalStories", "totalBugs", "totalMembers",
+                  "totalTimeUsage");
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+          LOGGER.error("copy props", e);
+        }
+      }
+    }
+
+    return results;
   }
 }

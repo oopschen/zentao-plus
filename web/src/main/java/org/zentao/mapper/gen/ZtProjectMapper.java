@@ -41,4 +41,10 @@ public interface ZtProjectMapper {
       @Param("endDate") LocalDate endDate,
       @Param("taskStatus") List<String> taskStatus
   );
+
+  List<ProjectProfileStat> statProjectBugs(
+      @Param("createDate") LocalDate createDate,
+      @Param("endDate") LocalDate endDate
+  );
+
 }
