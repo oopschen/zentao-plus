@@ -1,6 +1,6 @@
 package org.zentao.entity.gen;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ZtProject {
     private Integer id;
@@ -17,9 +17,9 @@ public class ZtProject {
 
     private String code;
 
-    private Date begin;
+    private LocalDate begin;
 
-    private Date end;
+    private LocalDate end;
 
     private Short days;
 
@@ -119,19 +119,19 @@ public class ZtProject {
         this.code = code == null ? null : code.trim();
     }
 
-    public Date getBegin() {
+    public LocalDate getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(LocalDate begin) {
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 

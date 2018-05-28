@@ -43,6 +43,8 @@
           enableUpdateByPrimaryKey="false"
           enableInsert="false"
         >
+          <columnOverride column="begin" javaType="java.time.LocalDate" />
+          <columnOverride column="end" javaType="java.time.LocalDate" />
         </table>
 
         <table tableName="zt_task"
@@ -72,5 +74,5 @@
         >
         </table>
     </context>
-    
+
 </generatorConfiguration>

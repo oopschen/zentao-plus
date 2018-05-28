@@ -1,8 +1,7 @@
 package org.zentao.entity.gen;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ZtProjectExample {
@@ -104,32 +103,6 @@ public class ZtProjectExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -602,53 +575,53 @@ public class ZtProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andBeginEqualTo(Date value) {
-            addCriterionForJDBCDate("`begin` =", value, "begin");
+        public Criteria andBeginEqualTo(LocalDate value) {
+            addCriterion("`begin` =", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginNotEqualTo(Date value) {
-            addCriterionForJDBCDate("`begin` <>", value, "begin");
+        public Criteria andBeginNotEqualTo(LocalDate value) {
+            addCriterion("`begin` <>", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginGreaterThan(Date value) {
-            addCriterionForJDBCDate("`begin` >", value, "begin");
+        public Criteria andBeginGreaterThan(LocalDate value) {
+            addCriterion("`begin` >", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("`begin` >=", value, "begin");
+        public Criteria andBeginGreaterThanOrEqualTo(LocalDate value) {
+            addCriterion("`begin` >=", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginLessThan(Date value) {
-            addCriterionForJDBCDate("`begin` <", value, "begin");
+        public Criteria andBeginLessThan(LocalDate value) {
+            addCriterion("`begin` <", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("`begin` <=", value, "begin");
+        public Criteria andBeginLessThanOrEqualTo(LocalDate value) {
+            addCriterion("`begin` <=", value, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginIn(List<Date> values) {
-            addCriterionForJDBCDate("`begin` in", values, "begin");
+        public Criteria andBeginIn(List<LocalDate> values) {
+            addCriterion("`begin` in", values, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginNotIn(List<Date> values) {
-            addCriterionForJDBCDate("`begin` not in", values, "begin");
+        public Criteria andBeginNotIn(List<LocalDate> values) {
+            addCriterion("`begin` not in", values, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("`begin` between", value1, value2, "begin");
+        public Criteria andBeginBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`begin` between", value1, value2, "begin");
             return (Criteria) this;
         }
 
-        public Criteria andBeginNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("`begin` not between", value1, value2, "begin");
+        public Criteria andBeginNotBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`begin` not between", value1, value2, "begin");
             return (Criteria) this;
         }
 
@@ -662,53 +635,53 @@ public class ZtProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andEndEqualTo(Date value) {
-            addCriterionForJDBCDate("`end` =", value, "end");
+        public Criteria andEndEqualTo(LocalDate value) {
+            addCriterion("`end` =", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndNotEqualTo(Date value) {
-            addCriterionForJDBCDate("`end` <>", value, "end");
+        public Criteria andEndNotEqualTo(LocalDate value) {
+            addCriterion("`end` <>", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndGreaterThan(Date value) {
-            addCriterionForJDBCDate("`end` >", value, "end");
+        public Criteria andEndGreaterThan(LocalDate value) {
+            addCriterion("`end` >", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("`end` >=", value, "end");
+        public Criteria andEndGreaterThanOrEqualTo(LocalDate value) {
+            addCriterion("`end` >=", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndLessThan(Date value) {
-            addCriterionForJDBCDate("`end` <", value, "end");
+        public Criteria andEndLessThan(LocalDate value) {
+            addCriterion("`end` <", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("`end` <=", value, "end");
+        public Criteria andEndLessThanOrEqualTo(LocalDate value) {
+            addCriterion("`end` <=", value, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndIn(List<Date> values) {
-            addCriterionForJDBCDate("`end` in", values, "end");
+        public Criteria andEndIn(List<LocalDate> values) {
+            addCriterion("`end` in", values, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndNotIn(List<Date> values) {
-            addCriterionForJDBCDate("`end` not in", values, "end");
+        public Criteria andEndNotIn(List<LocalDate> values) {
+            addCriterion("`end` not in", values, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("`end` between", value1, value2, "end");
+        public Criteria andEndBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`end` between", value1, value2, "end");
             return (Criteria) this;
         }
 
-        public Criteria andEndNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("`end` not between", value1, value2, "end");
+        public Criteria andEndNotBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`end` not between", value1, value2, "end");
             return (Criteria) this;
         }
 
