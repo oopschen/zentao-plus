@@ -219,7 +219,7 @@
 
   <select id="statProjectMemberTimeUsage" resultType="org.zentao.entity.stat.MemberProjectConsumeStat">
     select
-      t.account as name,
+      t.finishedBy as name,
       sum(t.consumed) as tolConsumedTime
     from zt_project p
     inner join zt_task t on p.id = t.project
@@ -239,8 +239,8 @@
       </if>
       and t.deleted = '0'
       and p.deleted = '0'
+      and t.canceledBy = ''
     </where>
-    group by p.id
-    order by p.begin asc
+    group by t.finishedBy
   </select>
 </mapper>

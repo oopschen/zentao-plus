@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.zentao.config.props.ApplicationConfiguration;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
@@ -28,6 +29,8 @@ public class ReportController {
   private ZtProjectMapper ztProjectMapper;
   @Autowired
   private StatService statService;
+  @Autowired
+  private ApplicationConfiguration applicationConfiguration;
 
   @GetMapping("/project/{projectID}")
   public String projectReport(@PathVariable Integer projectID, ModelMap modelMap) {
@@ -76,7 +79,12 @@ public class ReportController {
 
     List<ProjectProfileStat> projectProfileStats = statService
         .statProjectsByTime(actualStart, actualEnd);
+
+    List<MemberProjectConsumeStat> memberProjectConsumeStats = ztProjectMapper
+        .statProjectMemberTimeUsage(actualStart, actualEnd,
+            applicationConfiguration.getTaskStatus());
     modelMap.put("projectStats", projectProfileStats);
+    modelMap.put("memberConsumedStats", memberProjectConsumeStats);
     return "report/project_summary";
   }
 

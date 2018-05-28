@@ -30,6 +30,10 @@
         <div class="charts" id="project-summary"></div>
       </div>
 
+      <div>
+        <div class="charts" id="member-consumed-summary"></div>
+      </div>
+
     </div>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -80,6 +84,18 @@
       {{/projectStats}}
 
       renderColumnBar('project-summary', '项目总体情况', yAxis, projectSummary, seriesTooltip);
+
+      // pie for member summary
+      var pieHrsTooltip = percentageToolTip('hrs');
+      var memberConsumedSummary = [];
+      var memberConsumedSummary = [];
+      {{#memberConsumedStats}}
+        memberConsumedSummary.push({name: '{{name}}', value: {{tolConsumedTime}} })
+      {{/memberConsumedStats}}
+      renderPie(
+        'member-consumed-summary', '人员用时情况',
+        memberConsumedSummary, pieHrsTooltip
+      );
     </script>
   </body>
 </html>
