@@ -291,7 +291,6 @@ public class StatServiceImpl implements StatService {
   @Override
   public List<TimeRangeProjectStat> statProjectByTimeRange(LocalDate start, LocalDate end,
       StatProjectTimeRange timerange) {
-    // TODO
     if (null == start || null == end) {
       return null;
     }
@@ -305,10 +304,8 @@ public class StatServiceImpl implements StatService {
         .andDeletedEqualTo("0")
         .andBeginGreaterThanOrEqualTo(actualStart)
         .andBeginLessThan(actualEnd);
+    queryProjectByTime.setOrderByClause("begin asc");
     List<ZtProject> ztProjects = ztProjectMapper.selectByExample(queryProjectByTime);
-    if (CollectionUtils.isEmpty(ztProjects)) {
-      return null;
-    }
 
     List<TimeRangeProjectStat> result = new LinkedList<>();
     LocalDate tmp = actualStart;
@@ -319,14 +316,57 @@ public class StatServiceImpl implements StatService {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
         StatProjectTimeRange.MONTHLY == timerange ? "yyyy-MM" : "yyyy-MM WW"
     );
+    int ztProjectInx = 0;
+    boolean isZtProjectsEmpty = CollectionUtils.isEmpty(ztProjects);
     while (tmp.isBefore(actualEnd)) {
       final String dateStr = tmp.format(dateTimeFormatter);
-      TimeRangeProjectStat foundTimeRange = IterableUtils
+      TimeRangeProjectStat foundStat = IterableUtils
           .find(result, object -> object.getTimerange().equals(dateStr));
-      if (null == foundTimeRange) {
-        result.add(new TimeRangeProjectStat(dateStr, 1));
+      if (null == foundStat) {
+        result.add(new TimeRangeProjectStat(dateStr, 0));
       } else {
-        foundTimeRange.setTimerange(foundTimeRange.getTimerange() + 1);
+        foundStat.setTotalProjects(foundStat.getTotalProjects() + 1);
+      }
+
+      if (!isZtProjectsEmpty) {
+        for (int i = ztProjectInx; i < ztProjects.size(); ) {
+          final ZtProject project = ztProjects.get(i);
+          if (project.getBegin().isAfter(tmp)) {
+            break;
+          }
+
+          // loop from begin to  end
+          LocalDate beginEndTmp = project.getBegin();
+          while (beginEndTmp.isBefore(project.getEnd())) {
+            final String dateBeginStr = beginEndTmp.format(dateTimeFormatter);
+            TimeRangeProjectStat foundTimeRange = IterableUtils
+                .find(result, object -> object.getTimerange().equals(dateBeginStr));
+            if (null == foundTimeRange) {
+              foundTimeRange = new TimeRangeProjectStat(dateBeginStr, 1);
+              result.add(foundTimeRange);
+            } else {
+              foundTimeRange.setTotalProjects(foundTimeRange.getTotalProjects() + 1);
+            }
+
+            beginEndTmp = beginEndTmp.plus(step);
+          }
+
+          final String projectEndStr = project.getEnd().format(dateTimeFormatter);
+          if (!projectEndStr.equals(beginEndTmp.minus(step).format(dateTimeFormatter))) {
+            TimeRangeProjectStat foundTimeRange = IterableUtils
+                .find(result, object -> object.getTimerange().equals(projectEndStr));
+            if (null == foundTimeRange) {
+              foundTimeRange = new TimeRangeProjectStat(projectEndStr, 1);
+              result.add(foundTimeRange);
+            } else {
+              foundTimeRange.setTotalProjects(foundTimeRange.getTotalProjects() + 1);
+            }
+
+          }
+
+          ztProjectInx = ++i;
+        }
+
       }
 
       tmp = tmp.plus(step);

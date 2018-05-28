@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zentao.config.props.ApplicationConfiguration;
+import org.zentao.entity.StatProjectTimeRange;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.stat.MemberProjectConsumeStat;
@@ -18,6 +19,7 @@ import org.zentao.entity.stat.ProjectProfileStat;
 import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
+import org.zentao.entity.stat.TimeRangeProjectStat;
 import org.zentao.mapper.gen.ZtProjectMapper;
 import org.zentao.service.StatService;
 
@@ -83,8 +85,13 @@ public class ReportController {
     List<MemberProjectConsumeStat> memberProjectConsumeStats = ztProjectMapper
         .statProjectMemberTimeUsage(actualStart, actualEnd,
             applicationConfiguration.getTaskStatus());
+
+    List<TimeRangeProjectStat> timeRangeProjectStats = statService
+        .statProjectByTimeRange(actualStart, actualEnd, StatProjectTimeRange.MONTHLY);
+
     modelMap.put("projectStats", projectProfileStats);
     modelMap.put("memberConsumedStats", memberProjectConsumeStats);
+    modelMap.put("timerangeProjectStats", timeRangeProjectStats);
     return "report/project_summary";
   }
 
