@@ -2,6 +2,9 @@ package org.zentao.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.zentao.config.props.ApplicationConfiguration;
+import org.zentao.entity.StatProjectTimeRange;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
 import org.zentao.entity.gen.ZtTaskExample;
@@ -31,6 +35,7 @@ import org.zentao.entity.stat.ProjectProfileStat;
 import org.zentao.entity.stat.ProjectStoryStat;
 import org.zentao.entity.stat.ProjectTaskConsumedStat;
 import org.zentao.entity.stat.ProjectTimeUsageStat;
+import org.zentao.entity.stat.TimeRangeProjectStat;
 import org.zentao.mapper.gen.ZtProjectMapper;
 import org.zentao.mapper.gen.ZtTaskMapper;
 import org.zentao.mapper.gen.ZtTeamMapper;
@@ -266,12 +271,12 @@ public class StatServiceImpl implements StatService {
     }
 
     List<Integer> projectIDs = new ArrayList<>(results.size());
-    for(final ProjectProfileStat tmp : results) {
+    for (final ProjectProfileStat tmp : results) {
       projectIDs.add(tmp.getId());
     }
 
     List<ZtProject> ztProjects = queryProjectsInfoByIDs(projectIDs);
-    for(final ProjectProfileStat tmp : results) {
+    for (final ProjectProfileStat tmp : results) {
       ZtProject ztProject = IterableUtils
           .find(ztProjects, object -> object.getId().equals(tmp.getId()));
       if (null == ztProject) {
@@ -283,6 +288,53 @@ public class StatServiceImpl implements StatService {
     return results;
   }
 
+  @Override
+  public List<TimeRangeProjectStat> statProjectByTimeRange(LocalDate start, LocalDate end,
+      StatProjectTimeRange timerange) {
+    // TODO
+    if (null == start || null == end) {
+      return null;
+    }
+    // format start, end to floor(start), ceil(end)
+    LocalDate actualStart = start.with(TemporalAdjusters.firstDayOfMonth()),
+        actualEnd = end.with(TemporalAdjusters.firstDayOfNextMonth());
+
+    // query all project info by time
+    ZtProjectExample queryProjectByTime = new ZtProjectExample();
+    queryProjectByTime.or()
+        .andDeletedEqualTo("0")
+        .andBeginGreaterThanOrEqualTo(actualStart)
+        .andBeginLessThan(actualEnd);
+    List<ZtProject> ztProjects = ztProjectMapper.selectByExample(queryProjectByTime);
+    if (CollectionUtils.isEmpty(ztProjects)) {
+      return null;
+    }
+
+    List<TimeRangeProjectStat> result = new LinkedList<>();
+    LocalDate tmp = actualStart;
+    int year = 0,
+        month = StatProjectTimeRange.MONTHLY == timerange ? 1 : 0,
+        days = StatProjectTimeRange.WEEKLY == timerange ? 7 : 0;
+    Period step = Period.of(year, month, days);
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
+        StatProjectTimeRange.MONTHLY == timerange ? "yyyy-MM" : "yyyy-MM WW"
+    );
+    while (tmp.isBefore(actualEnd)) {
+      final String dateStr = tmp.format(dateTimeFormatter);
+      TimeRangeProjectStat foundTimeRange = IterableUtils
+          .find(result, object -> object.getTimerange().equals(dateStr));
+      if (null == foundTimeRange) {
+        result.add(new TimeRangeProjectStat(dateStr, 1));
+      } else {
+        foundTimeRange.setTimerange(foundTimeRange.getTimerange() + 1);
+      }
+
+      tmp = tmp.plus(step);
+    }
+    // assemble by time range
+    return result;
+  }
+
   private List<ZtProject> queryProjectsInfoByIDs(List<Integer> projectID) {
     Set<Integer> projectIDs = new HashSet<>();
     projectIDs.addAll(projectID);
@@ -292,4 +344,4 @@ public class StatServiceImpl implements StatService {
 
     return ztProjectMapper.selectByExample(queryByIDs);
   }
-}
+};
