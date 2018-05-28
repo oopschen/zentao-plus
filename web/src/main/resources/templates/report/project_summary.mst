@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1280" />
+    <title>项目总结</title>
+    <style type="text/css" media="screen">
+.charts {
+  height: 400px;
+  width: 100%;
+}
+.body {
+  width: 1280px;
+}
+.one-line {
+  display: inline-block;
+  width: 30%;
+}
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div>
+        time selector
+      </div>
+
+      <div>
+        <div class="charts" id="project-summary"></div>
+      </div>
+
+    </div>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="/public/scripts/common-charts.js"></script>
+    <script src="/public/scripts/projectDetail.js"></script>
+
+    <script charset="utf-8">
+      var seriesTooltip = {
+          pointFormat: '{series.name}: <b>{point.y}</b>'
+      };
+      var yAxis = [{
+            title: {
+                text: '耗时'
+            }
+        }, {
+            opposite: true,
+            title: {
+                text: '个数'
+            }
+      }];
+      var projectSummary = [];
+
+      {{#projectStats}}
+        projectSummary['{{name}}'] = []
+        projectSummary['{{name}}'] = projectSummary['{{name}}'].concat({
+          seriesName: '需求数',
+          value:
+          {{#totalStories}}{{totalStories}}{{/totalStories}}{{^totalStories}}0{{/totalStories}},
+          yAxis: 1
+        },
+        {
+          seriesName: 'BUG数',
+          value: {{#totalBugs}}{{totalBugs}}{{/totalBugs}}{{^totalBugs}}0{{/totalBugs}},
+          yAxis: 1
+        },
+        {
+          seriesName: '成员数',
+          value:
+          {{#totalMembers}}{{totalMembers}}{{/totalMembers}}{{^totalMembers}}0{{/totalMembers}},
+          yAxis: 1
+        },
+        {
+          seriesName: '耗时',
+          value:
+          {{#totalTimeUsage}}{{totalTimeUsage}}{{/totalTimeUsage}}{{^totalTimeUsage}}0{{/totalTimeUsage}}
+        });
+
+      {{/projectStats}}
+
+      renderColumnBar('project-summary', '项目总体情况', yAxis, projectSummary, seriesTooltip);
+    </script>
+  </body>
+</html>
