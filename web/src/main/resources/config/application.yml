@@ -46,3 +46,8 @@ thread:
     backqueue-size: 100
 
 
+server:
+  compression:
+    enabled: true
+  jetty:
+    acceptors: 10
