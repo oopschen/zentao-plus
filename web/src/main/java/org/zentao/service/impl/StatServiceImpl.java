@@ -238,8 +238,11 @@ public class StatServiceImpl implements StatService {
         try {
           stats = future.get();
           isBreak = true;
-        } catch (InterruptedException | ExecutionException e) {
-          LOGGER.error("future", e);
+        } catch (InterruptedException e) {
+          LOGGER.error("future interrupt", e);
+        } catch (ExecutionException e) {
+          isBreak = true;
+          LOGGER.error("future exec", e);
         }
       }
 

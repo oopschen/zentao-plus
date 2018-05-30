@@ -4,75 +4,81 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1280" />
     <title>项目总结</title>
-    <link rel="stylesheet" type="text/css" href="/public/lib/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/lib/foundation.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/public/lib/semantic.min.js"></script>
 
-    <style type="text/css" media="screen">
-.charts {
-  height: 400px;
-  width: 100%;
-}
-.body {
-  width: 1280px;
-}
-.one-line {
-  display: inline-block;
-  width: 30%;
-}
-    </style>
   </head>
   <body>
-    <div class="ui pointing menu stackable">
-      <div class="ui container">
-        <a class="active item">项目概况</a>
-        <a class="item" href="/report/project">项目明细</a>
-      </div>
-    </div>
+    <div class="grid-container">
+      <div class="grid-x">
 
-    <div class="ui segment container">
-      <div class="ui grid">
-        <div class="row">
-          <div class="column">
+        <div class="cell">
+
+          <div class="top-bar">
+            <div class="top-bar-left">
+              <ul class="dropdown menu" data-dropdown-menu>
+                <li class="menu-text">禅道PLUS</li>
+                <li class="is-active"><a href="/" >项目概况</a></li>
+                <li><a href="/report/project">项目明细</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="grid-x margin-vertical-1">
+        <div class="cell small-4 medium-4 large-4">
+           <label>开始时间
+               <input type="text" placeholder="开始时间">
+           </label>
+        </div>
+
+        <div class="cell small-4 medium-4 large-4 small-offset-1 medium-offset-1 large-offset-1">
+           <label> 结束时间
+               <input type="text" placeholder="结束时间">
+           </label>
+        </div>
+
+        <div class="cell small-2 medium-2 large-2">
+          <div class="grid-x grid-padding-y">
+            <div class="cell small-offset-2 small-8 medium-4 large-4">
+              <button type="button" class="button expanded">查询</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-x">
+        <div class="cell">
             <div class="charts" id="project-summary"></div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="column">
-            <div class="charts" id="member-consumed-summary"></div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="column">
-            <div class="charts" id="project-timerange-summary"></div>
-          </div>
         </div>
       </div>
+
+      <div class="grid-x margin-top-1">
+        <div class="cell">
+            <div class="charts" id="member-consumed-summary"></div>
+        </div>
+      </div>
+
+      <div class="grid-x margin-top-1">
+        <div class="cell">
+            <div class="charts" id="project-timerange-summary"></div>
+        </div>
+      </div>
+
     </div>
 
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="/public/scripts/common-charts.js"></script>
     <script src="/public/scripts/projectDetail.js"></script>
+    <script src="/public/scripts/summary.js"></script>
 
     <script charset="utf-8">
-      var seriesTooltip = {
-          pointFormat: '{series.name}: <b>{point.y}</b>'
-      };
-      var yAxis = [{
-            title: {
-                text: '耗时'
-            }
-        }, {
-            opposite: true,
-            title: {
-                text: '个数'
-            }
-      }];
       var projectSummary = [];
 
       {{#projectStats}}
@@ -102,27 +108,15 @@
 
       {{/projectStats}}
 
-      renderColumnBar('project-summary', '项目总体情况', yAxis, projectSummary, seriesTooltip);
 
       // pie for member summary
-      var pieHrsTooltip = percentageToolTip('hrs');
-      var memberConsumedSummary = [];
       var memberConsumedSummary = [];
       {{#memberConsumedStats}}
         memberConsumedSummary.push({name: '{{name}}', value: {{tolConsumedTime}} })
       {{/memberConsumedStats}}
-      renderPie(
-        'member-consumed-summary', '人员用时情况',
-        memberConsumedSummary, pieHrsTooltip
-      );
 
       // column for project stat timerange
       var projectTimerangeSummary= [];
-      var yAxis4Timerange = [{
-            title: {
-                text: '项目数'
-            }
-      }];
       {{#timerangeProjectStats}}
         projectTimerangeSummary['{{timerange}}'] = []
         projectTimerangeSummary['{{timerange}}'] = projectTimerangeSummary['{{timerange}}'].concat(
@@ -132,7 +126,6 @@
         });
 
       {{/timerangeProjectStats}}
-      renderColumnBar('project-timerange-summary', '项目周期统计', yAxis4Timerange, projectTimerangeSummary, seriesTooltip);
     </script>
   </body>
 </html>
