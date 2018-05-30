@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1280" />
     <title>项目总结</title>
+    <link rel="stylesheet" type="text/css" href="/public/lib/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/public/lib/semantic.min.js"></script>
+
     <style type="text/css" media="screen">
 .charts {
   height: 400px;
@@ -19,26 +25,35 @@
     </style>
   </head>
   <body>
-
-    <div class="container">
-
-      <div>
-        time selector
+    <div class="ui pointing menu stackable">
+      <div class="ui container">
+        <a class="active item">项目概况</a>
+        <a class="item" href="/report/project">项目明细</a>
       </div>
-
-      <div>
-        <div class="charts" id="project-summary"></div>
-      </div>
-
-      <div>
-        <div class="charts" id="member-consumed-summary"></div>
-      </div>
-
-      <div>
-        <div class="charts" id="project-timerange-summary"></div>
-      </div>
-
     </div>
+
+    <div class="ui segment container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="column">
+            <div class="charts" id="project-summary"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="column">
+            <div class="charts" id="member-consumed-summary"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="column">
+            <div class="charts" id="project-timerange-summary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="/public/scripts/common-charts.js"></script>
