@@ -4,14 +4,47 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1280" />
     <title>项目报告</title>
+    <link rel="stylesheet" type="text/css" href="/public/lib/foundation.css">
   </head>
   <body>
-    <div class="container">
-      <ul>
+    <div class="grid-container">
+      <div class="grid-x margin-bottom-1">
+
+        <div class="cell">
+
+          <div class="top-bar">
+            <div class="top-bar-left">
+              <ul class="dropdown menu" data-dropdown-menu>
+                <li class="menu-text">禅道PLUS</li>
+                <li><a href="/" >项目概况</a></li>
+                <li class="is-active"><a href="/report/project">项目明细</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="grid-padding-x grid-x">
         {{#projects}}
-          <li><a href="/report/project/{{id}}">{{name}}</a></li>
+        <div class="cell small-6 medium-4 large-3">
+
+          <div class="card">
+            <div class="card-divider">
+                <a href="/report/project/{{id}}">{{name}}</a>
+            </div>
+            <div class="card-section">
+              <h4>{{begin}} ~ {{end}}</h4>
+              <p>PM is {{pm}}</p>
+              <p>status is {{status}}</p>
+              <p>{{#desc}}{{desc}}{{/desc}} {{^desc}}No description.{{/desc}}</p>
+            </div>
+          </div>
+
+        </div>
         {{/projects}}
-      </ul>
+
+      </div>
     </div>
   </body>
 </html>

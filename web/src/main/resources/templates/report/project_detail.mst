@@ -4,21 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1280" />
     <title>项目详情报告</title>
-    <style type="text/css" media="screen">
-.charts {
-  height: 400px;
-  width: 100%;
-}
-.body {
-  width: 1280px;
-}
-.one-line {
-  display: inline-block;
-  width: 30%;
-}
-    </style>
+    <link rel="stylesheet" type="text/css" href="/public/lib/foundation.css">
   </head>
   <body>
+    <div class="grid-container">
+      <div class="grid-x margin-bottom-1">
+
+        <div class="cell">
+
+          <div class="top-bar">
+            <div class="top-bar-left">
+              <ul class="dropdown menu" data-dropdown-menu>
+                <li class="menu-text">禅道PLUS</li>
+                <li><a href="/" >项目概况</a></li>
+                <li class="is-active"><a href="/report/project">项目明细</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
 
     <div class="title">{{projectInfo.name}}</div>
 
