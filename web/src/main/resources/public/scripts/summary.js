@@ -1,9 +1,19 @@
 (function($) {
-  var bindCalendar = function(id, toValueID) {
-    $("#startdate").calendar({
-      type: 'date',
-      endCalendar: $('#enddate')
-    });
+  var bindCalendar = function() {
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var start = $("#startdate").fdatepicker({
+      format: 'yyyy-mm-dd'
+    }).on('changeDate', function (ev) {
+      start.hide();
+      $('#enddate')[0].focus();
+    }).data('datepicker');
+
+    var end = $("#enddate").fdatepicker({
+      format: 'yyyy-mm-dd'
+    }).on('changeDate', function (ev) {
+      end.hide();
+    }).data('datepicker');
   };
 
   $(document.body).ready(function() {
