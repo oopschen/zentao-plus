@@ -69,6 +69,7 @@ public class ReportController {
   public String projectSummary(
       @RequestParam(required = false) LocalDate start,
       @RequestParam(required = false) LocalDate end,
+      @RequestParam(required = false) StatProjectTimeRange projectStatTimeRange,
       ModelMap modelMap
   ) {
     LocalDate actualStart = start, actualEnd = end;
@@ -87,7 +88,8 @@ public class ReportController {
             applicationConfiguration.getTaskStatus());
 
     List<TimeRangeProjectStat> timeRangeProjectStats = statService
-        .statProjectByTimeRange(actualStart, actualEnd, StatProjectTimeRange.MONTHLY);
+        .statProjectByTimeRange(actualStart, actualEnd,
+            null == projectStatTimeRange ? StatProjectTimeRange.MONTHLY : projectStatTimeRange);
 
     modelMap.put("projectStats", projectProfileStats);
     modelMap.put("memberConsumedStats", memberProjectConsumeStats);

@@ -317,7 +317,7 @@ public class StatServiceImpl implements StatService {
         days = StatProjectTimeRange.WEEKLY == timerange ? 7 : 0;
     Period step = Period.of(year, month, days);
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
-        StatProjectTimeRange.MONTHLY == timerange ? "yyyy-MM" : "yyyy-MM WW"
+        StatProjectTimeRange.MONTHLY == timerange ? "yyyy-MM" : "yyyy-MM W"
     );
     int ztProjectInx = 0;
     boolean isZtProjectsEmpty = CollectionUtils.isEmpty(ztProjects);
