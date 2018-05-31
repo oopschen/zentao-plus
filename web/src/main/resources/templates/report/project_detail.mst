@@ -25,26 +25,48 @@
         </div>
       </div>
 
-    </div>
+      <div class="grid-x">
+        <div class="cell">
+          <nav role="navigation">
+            <ul class="breadcrumbs">
+              <li><a href="/report/project">项目列表</a></li>
+              <li>
+                <span class="show-for-sr">当前: </span> {{projectInfo.name}}
+              </li>
+            </ul>
+          </nav>
 
-    <div class="title">{{projectInfo.name}}</div>
-
-    <div class="container">
-      <div>
-        <div class="charts" id="people-charts"></div>
-      </div>
-      <div>
-        <div class="charts" id="people-time-usage-charts"></div>
-      </div>
-
-      <div>
-        <div class="charts one-line" id="task-type-pie"></div>
-        <div class="charts one-line" id="task-type-pie-num"></div>
+        </div>
       </div>
 
-      <div>
-        <div class="charts one-line" id="project-time-usage-charts"></div>
-        <div class="charts one-line" id="project-story-charts"></div>
+      <div class="grid-x">
+        <div class="cell">
+          <div class="charts" id="people-charts"></div>
+        </div>
+      </div>
+
+      <div class="grid-x">
+        <div class="cell">
+          <div class="charts" id="people-time-usage-charts"></div>
+        </div>
+      </div>
+
+      <div class="grid-x">
+        <div class="cell small-6 medium-6 large-6">
+          <div class="charts one-line" id="task-type-pie"></div>
+        </div>
+        <div class="cell small-6 medium-6 large-6">
+          <div class="charts one-line" id="task-type-pie-num"></div>
+        </div>
+      </div>
+
+      <div class="grid-x">
+        <div class="cell small-6 medium-6 large-6">
+          <div class="charts one-line" id="project-time-usage-charts"></div>
+        </div>
+        <div class="cell small-6 medium-6 large-6">
+          <div class="charts one-line" id="project-story-charts"></div>
+        </div>
       </div>
 
     </div>
