@@ -96,8 +96,10 @@
     </div>
 
     <form id="form" method="get">
-      <input id="start" type="hidden" name="start">
-      <input id="end" type="hidden" name="end">
+      {{#timeParam}}
+        <input id="start" type="hidden" name="start" value="{{start}}">
+        <input id="end" type="hidden" name="end" value="{{end}}">
+      {{/timeParam}}
       <input id="projectStatTimeRange" type="hidden" name="projectStatTimeRange"
 
         {{#isMonthly}}
@@ -168,6 +170,11 @@
         });
 
       {{/timerangeProjectStats}}
+
+      {{#timeParam}}
+        var initStartDate = "{{start}}",
+            initEndDate = "{{end}}";
+      {{/timeParam}}
     </script>
   </body>
 </html>

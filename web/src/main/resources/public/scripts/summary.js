@@ -5,7 +5,8 @@
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
     var start = $("#startdate").fdatepicker({
-      format: 'yyyy-mm-dd'
+      format: 'yyyy-mm-dd',
+      initialDate: initStartDate
     }).on('changeDate', function (ev) {
       start.hide();
       $('#start').val(moment(ev.date).format(dateformat));
@@ -13,7 +14,8 @@
     }).data('datepicker');
 
     var end = $("#enddate").fdatepicker({
-      format: 'yyyy-mm-dd'
+      format: 'yyyy-mm-dd',
+      initialDate: initEndDate
     }).on('changeDate', function (ev) {
       end.hide();
       $('#end').val(moment(ev.date).format(dateformat));

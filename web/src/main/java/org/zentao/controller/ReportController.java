@@ -3,14 +3,16 @@ package org.zentao.controller;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zentao.config.props.ApplicationConfiguration;
+import org.zentao.controller.entity.SummaryTimeParam;
 import org.zentao.entity.StatProjectTimeRange;
 import org.zentao.entity.gen.ZtProject;
 import org.zentao.entity.gen.ZtProjectExample;
@@ -67,18 +69,11 @@ public class ReportController {
 
   @GetMapping("/project/summary")
   public String projectSummary(
-      @RequestParam(required = false) LocalDate start,
-      @RequestParam(required = false) LocalDate end,
+      @ModelAttribute SummaryTimeParam timeParam,
       @RequestParam(required = false) StatProjectTimeRange projectStatTimeRange,
       ModelMap modelMap
   ) {
-    LocalDate actualStart = start, actualEnd = end;
-    if (null == actualStart) {
-      actualStart = LocalDate.now().minusMonths(6);
-    }
-    if (null == actualEnd) {
-      actualEnd = LocalDate.now();
-    }
+    LocalDate actualStart = timeParam.getStart(), actualEnd = timeParam.getEnd();
 
     StatProjectTimeRange actualStatProjectTimeRange =
         null == projectStatTimeRange ? StatProjectTimeRange.MONTHLY : projectStatTimeRange;
@@ -98,6 +93,7 @@ public class ReportController {
     modelMap.put("timerangeProjectStats", timeRangeProjectStats);
     modelMap.put("isWeekly", actualStatProjectTimeRange == StatProjectTimeRange.WEEKLY);
     modelMap.put("isMonthly", actualStatProjectTimeRange == StatProjectTimeRange.MONTHLY);
+    modelMap.put("timeParam", timeParam);
     return "report/project_summary";
   }
 
