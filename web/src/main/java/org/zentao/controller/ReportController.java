@@ -80,6 +80,9 @@ public class ReportController {
       actualEnd = LocalDate.now();
     }
 
+    StatProjectTimeRange actualStatProjectTimeRange =
+        null == projectStatTimeRange ? StatProjectTimeRange.MONTHLY : projectStatTimeRange;
+
     List<ProjectProfileStat> projectProfileStats = statService
         .statProjectsByTime(actualStart, actualEnd);
 
@@ -88,12 +91,13 @@ public class ReportController {
             applicationConfiguration.getTaskStatus());
 
     List<TimeRangeProjectStat> timeRangeProjectStats = statService
-        .statProjectByTimeRange(actualStart, actualEnd,
-            null == projectStatTimeRange ? StatProjectTimeRange.MONTHLY : projectStatTimeRange);
+        .statProjectByTimeRange(actualStart, actualEnd, actualStatProjectTimeRange);
 
     modelMap.put("projectStats", projectProfileStats);
     modelMap.put("memberConsumedStats", memberProjectConsumeStats);
     modelMap.put("timerangeProjectStats", timeRangeProjectStats);
+    modelMap.put("isWeekly", actualStatProjectTimeRange == StatProjectTimeRange.WEEKLY);
+    modelMap.put("isMonthly", actualStatProjectTimeRange == StatProjectTimeRange.MONTHLY);
     return "report/project_summary";
   }
 

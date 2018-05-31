@@ -1,4 +1,6 @@
 (function($) {
+  var dateformat = 'YYYY-MM-DD';
+
   var bindCalendar = function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -6,6 +8,7 @@
       format: 'yyyy-mm-dd'
     }).on('changeDate', function (ev) {
       start.hide();
+      $('#start').val(moment(ev.date).format(dateformat));
       $('#enddate')[0].focus();
     }).data('datepicker');
 
@@ -13,6 +16,7 @@
       format: 'yyyy-mm-dd'
     }).on('changeDate', function (ev) {
       end.hide();
+      $('#end').val(moment(ev.date).format(dateformat));
     }).data('datepicker');
   };
 
@@ -49,5 +53,15 @@
 
 
     bindCalendar();
+
+    $('#submitBtn').click(function() {
+      $('#form').submit();
+    });
+
+    $('input[type=radio][name=projectStatTimeRange]').change(function() {
+      $('#form > #projectStatTimeRange').val(this.value);
+      $('#form').submit();
+    });
+
   })
 })(jQuery);
