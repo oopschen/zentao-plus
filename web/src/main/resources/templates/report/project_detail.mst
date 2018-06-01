@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=1280" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>项目详情报告</title>
     <link rel="stylesheet" type="text/css" href="/public/lib/foundation.css">
   </head>
