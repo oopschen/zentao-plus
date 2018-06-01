@@ -10,11 +10,15 @@
     <div class="grid-container">
       <div class="grid-x margin-bottom-1">
 
-        <div class="cell">
+        <div class="cell" id="menu">
+          <div class="title-bar" data-responsive-toggle="topmenu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="topmenu"></button>
+              <div class="title-bar-title"></div>
+          </div>
 
-          <div class="top-bar">
+          <div class="top-bar" id="topmenu">
             <div class="top-bar-left">
-              <ul class="dropdown menu" data-dropdown-menu>
+              <ul class="menu vertical medium-horizontal" >
                 <li class="menu-text">禅道PLUS</li>
                 <li><a href="/" >项目概况</a></li>
                 <li class="is-active"><a href="/report/project">项目明细</a></li>
@@ -27,7 +31,7 @@
 
       <div class="grid-padding-x grid-x">
         {{#projects}}
-        <div class="cell small-6 medium-4 large-3">
+        <div class="cell medium-8 large-3">
 
           <div class="card">
             <div class="card-divider">
@@ -46,5 +50,15 @@
 
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="/public/lib/foundation.min.js"></script>
+    <script charset="utf-8">
+      $(document.body).ready(function() {
+        $("#menu").foundation();
+      });
+    </script>
   </body>
 </html>

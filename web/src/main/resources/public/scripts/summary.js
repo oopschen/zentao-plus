@@ -23,6 +23,8 @@
   };
 
   $(document.body).ready(function() {
+    $("#menu").foundation();
+
     var seriesTooltip = {
       pointFormat: '{series.name}: <b>{point.y}</b>'
     };

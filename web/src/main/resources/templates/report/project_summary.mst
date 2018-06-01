@@ -12,9 +12,14 @@
     <div class="grid-container">
       <div class="grid-x margin-bottom-1">
 
-        <div class="cell">
+        <div class="cell" id="menu">
+          <div class="title-bar" data-responsive-toggle="topmenu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="topmenu"></button>
+              <div class="title-bar-title"></div>
+          </div>
 
-          <div class="top-bar">
+
+          <div class="top-bar" id="topmenu">
             <div class="top-bar-left">
               <ul class="dropdown menu" data-dropdown-menu>
                 <li class="menu-text">禅道PLUS</li>
@@ -29,21 +34,21 @@
 
 
       <div class="grid-x">
-        <div class="cell small-4 medium-4 large-4">
+        <div class="cell medium-4 large-4">
            <label>开始时间
                <input type="text" placeholder="开始时间" id="startdate">
            </label>
         </div>
 
-        <div class="cell small-4 medium-4 large-4 small-offset-1 medium-offset-1 large-offset-1">
+        <div class="cell medium-4 large-4 medium-offset-1 large-offset-1">
            <label> 结束时间
                <input type="text" placeholder="结束时间" id="enddate">
          </label>
         </div>
 
-        <div class="cell small-2 medium-2 large-2">
+        <div class="cell small-8 medium-2 large-2">
           <div class="grid-x grid-padding-y">
-            <div class="cell small-offset-2 small-8 medium-4 large-4">
+            <div class="cell medium-4 large-4">
               <button type="button" class="button" id="submitBtn" expanded">查询</button>
             </div>
           </div>
@@ -63,10 +68,10 @@
       </div>
 
       <div class="grid-x margin-top-1">
-        <div class="cell small-2 medium-2 large-1 ">
+        <div class="cell medium-2 large-1 ">
           <legend>选择周期</legend>
             <div class="grid-y">
-              <div class="cell">
+              <div class="cell small-6">
                 <input type="radio" name="projectStatTimeRange" value="MONTHLY"
 
               {{#isMonthly}}
@@ -88,7 +93,7 @@
 
         </div>
 
-        <div class="cell auto">
+        <div class="cell medium-auto large-auto">
             <div class="charts" id="project-timerange-summary"></div>
         </div>
       </div>
@@ -115,6 +120,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
+    <script src="/public/lib/foundation.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="/public/lib/moment.min.js"></script>
     <script src="/public/lib/foundation-datepicker.js"></script>
