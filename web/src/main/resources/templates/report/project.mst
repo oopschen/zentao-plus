@@ -31,7 +31,7 @@
 
       <div class="grid-padding-x grid-x">
         {{#projects}}
-        <div class="cell medium-8 large-3">
+        <div class="cell medium-4 large-3">
 
           <div class="card">
             <div class="card-divider">
