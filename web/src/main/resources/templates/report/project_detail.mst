@@ -81,7 +81,6 @@
     <script src="/public/lib/foundation.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="/public/scripts/common-charts.js"></script>
-    <script src="/public/scripts/projectDetail.js"></script>
     <script src="/public/scripts/detailpage.js"></script>
 
     <script charset="utf-8">
