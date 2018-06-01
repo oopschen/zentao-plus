@@ -21,7 +21,7 @@
 
           <div class="top-bar" id="topmenu">
             <div class="top-bar-left">
-              <ul class="dropdown menu" data-dropdown-menu>
+              <ul class="vertical medium-horizontal menu">
                 <li class="menu-text">禅道PLUS</li>
                 <li class="is-active"><a href="/" >项目概况</a></li>
                 <li><a href="/report/project">项目明细</a></li>
