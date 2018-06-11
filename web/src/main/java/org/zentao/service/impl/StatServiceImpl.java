@@ -378,7 +378,14 @@ public class StatServiceImpl implements StatService {
       }
 
       tmp = tmpEnd;
+
     }
+
+    if (CollectionUtils.isNotEmpty(result)) {
+      // sort reulst
+      result.sort((arg1, arg2) -> arg1.getTimerange().compareTo(arg2.getTimerange()));
+    }
+
     return result;
   }
 
