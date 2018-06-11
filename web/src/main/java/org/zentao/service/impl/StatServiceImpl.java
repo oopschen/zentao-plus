@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
 import org.slf4j.Logger;
@@ -321,50 +322,54 @@ public class StatServiceImpl implements StatService {
     );
     int ztProjectInx = 0;
     boolean isZtProjectsEmpty = CollectionUtils.isEmpty(ztProjects);
+    Consumer<LocalDate> dateConsumer = (inputDate) -> {
+      final String fmtDate = inputDate.format(dateTimeFormatter);
+      TimeRangeProjectStat foundTimeRange = IterableUtils
+          .find(result, object -> object.getTimerange().equals(fmtDate));
+      if (null == foundTimeRange) {
+        foundTimeRange = new TimeRangeProjectStat(fmtDate, 1);
+        result.add(foundTimeRange);
+      } else {
+        foundTimeRange.setTotalProjects(foundTimeRange.getTotalProjects() + 1);
+      }
+
+    };
+
+    // begin
     while (tmp.isBefore(actualEnd)) {
       final String dateStr = tmp.format(dateTimeFormatter);
       TimeRangeProjectStat foundStat = IterableUtils
           .find(result, object -> object.getTimerange().equals(dateStr));
       if (null == foundStat) {
         result.add(new TimeRangeProjectStat(dateStr, 0));
-      } else {
-        foundStat.setTotalProjects(foundStat.getTotalProjects() + 1);
       }
 
+      final LocalDate tmpEnd = tmp.plus(step);
       if (!isZtProjectsEmpty) {
         for (int i = ztProjectInx; i < ztProjects.size(); ) {
           final ZtProject project = ztProjects.get(i);
-          if (project.getBegin().isAfter(tmp)) {
+          // project date after current loop
+          if (tmpEnd.compareTo(project.getBegin()) < 0 || tmp.compareTo(project.getEnd()) > 0) {
             break;
           }
+          // project time range in one step
+          if (tmp.compareTo(project.getBegin()) <= 0 && tmpEnd.compareTo(project.getEnd()) > 0) {
+            dateConsumer.accept(project.getBegin());
+            ztProjectInx = ++i;
+            continue;
+          }
 
-          // loop from begin to  end
+          // loop from begin to end
           LocalDate beginEndTmp = project.getBegin();
-          while (beginEndTmp.isBefore(project.getEnd())) {
-            final String dateBeginStr = beginEndTmp.format(dateTimeFormatter);
-            TimeRangeProjectStat foundTimeRange = IterableUtils
-                .find(result, object -> object.getTimerange().equals(dateBeginStr));
-            if (null == foundTimeRange) {
-              foundTimeRange = new TimeRangeProjectStat(dateBeginStr, 1);
-              result.add(foundTimeRange);
-            } else {
-              foundTimeRange.setTotalProjects(foundTimeRange.getTotalProjects() + 1);
-            }
-
+          while (beginEndTmp.compareTo(project.getEnd()) <= 0) {
+            dateConsumer.accept(beginEndTmp);
             beginEndTmp = beginEndTmp.plus(step);
           }
 
-          final String projectEndStr = project.getEnd().format(dateTimeFormatter);
-          if (!projectEndStr.equals(beginEndTmp.minus(step).format(dateTimeFormatter))) {
-            TimeRangeProjectStat foundTimeRange = IterableUtils
-                .find(result, object -> object.getTimerange().equals(projectEndStr));
-            if (null == foundTimeRange) {
-              foundTimeRange = new TimeRangeProjectStat(projectEndStr, 1);
-              result.add(foundTimeRange);
-            } else {
-              foundTimeRange.setTotalProjects(foundTimeRange.getTotalProjects() + 1);
-            }
-
+          String fmtBeginEndTmpLast = beginEndTmp.minus(step).format(dateTimeFormatter),
+              fmtProjectEnd = project.getEnd().format(dateTimeFormatter);
+          if (!fmtBeginEndTmpLast.equals(fmtProjectEnd)) {
+            dateConsumer.accept(project.getEnd());
           }
 
           ztProjectInx = ++i;
@@ -372,9 +377,8 @@ public class StatServiceImpl implements StatService {
 
       }
 
-      tmp = tmp.plus(step);
+      tmp = tmpEnd;
     }
-    // assemble by time range
     return result;
   }
 
