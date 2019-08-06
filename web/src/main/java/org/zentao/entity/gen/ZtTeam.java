@@ -3,13 +3,13 @@ package org.zentao.entity.gen;
 import java.util.Date;
 
 public class ZtTeam {
-    private Integer project;
+    private Integer root;
 
     private String account;
 
     private String role;
 
-    private String limiteduser;
+    private String limited;
 
     private Date join;
 
@@ -17,12 +17,13 @@ public class ZtTeam {
 
     private Float hours;
 
-    public Integer getProject() {
-        return project;
+
+    public Integer getRoot() {
+        return root;
     }
 
-    public void setProject(Integer project) {
-        this.project = project;
+    public void setRoot(Integer root) {
+        this.root = root;
     }
 
     public String getAccount() {
@@ -41,12 +42,12 @@ public class ZtTeam {
         this.role = role == null ? null : role.trim();
     }
 
-    public String getLimiteduser() {
-        return limiteduser;
+    public String getLimited() {
+        return limited;
     }
 
-    public void setLimiteduser(String limiteduser) {
-        this.limiteduser = limiteduser == null ? null : limiteduser.trim();
+    public void setLimited(String limiteduser) {
+        this.limited = limiteduser == null ? null : limiteduser.trim();
     }
 
     public Date getJoin() {

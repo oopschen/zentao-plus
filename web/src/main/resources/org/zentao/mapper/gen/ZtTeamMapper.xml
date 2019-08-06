@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zentao.mapper.gen.ZtTeamMapper">
   <resultMap id="BaseResultMap" type="org.zentao.entity.gen.ZtTeam">
-    <id column="project" jdbcType="INTEGER" property="project" />
+    <id column="root" jdbcType="INTEGER" property="root" />
     <id column="account" jdbcType="CHAR" property="account" />
     <result column="role" jdbcType="CHAR" property="role" />
-    <result column="limitedUser" jdbcType="VARCHAR" property="limiteduser" />
+    <result column="limited" jdbcType="VARCHAR" property="limited" />
     <result column="join" jdbcType="DATE" property="join" />
     <result column="days" jdbcType="SMALLINT" property="days" />
     <result column="hours" jdbcType="REAL" property="hours" />
@@ -40,7 +40,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    project, account, `role`, limitedUser, `join`, `days`, `hours`
+    root, account, `role`, limited, `join`, `days`, `hours`
   </sql>
   <select id="selectByExample" parameterType="org.zentao.entity.gen.ZtTeamExample" resultMap="BaseResultMap">
     select

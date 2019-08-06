@@ -160,7 +160,7 @@ public class StatServiceImpl implements StatService {
 
     ZtTeamExample queryByProjectID = new ZtTeamExample();
     queryByProjectID.or()
-        .andProjectEqualTo(projectID);
+        .androotEqualTo(projectID);
 
     List<ZtTeam> ztTeams = ztTeamMapper.selectByExample(queryByProjectID);
     if (CollectionUtils.isEmpty(ztTeams)) {

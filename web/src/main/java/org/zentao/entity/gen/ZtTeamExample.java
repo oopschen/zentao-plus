@@ -132,63 +132,63 @@ public class ZtTeamExample {
             addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
-        public Criteria andProjectIsNull() {
-            addCriterion("project is null");
+        public Criteria androotIsNull() {
+            addCriterion("root is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIsNotNull() {
-            addCriterion("project is not null");
+        public Criteria androotIsNotNull() {
+            addCriterion("root is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectEqualTo(Integer value) {
-            addCriterion("project =", value, "project");
+        public Criteria androotEqualTo(Integer value) {
+            addCriterion("root =", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectNotEqualTo(Integer value) {
-            addCriterion("project <>", value, "project");
+        public Criteria androotNotEqualTo(Integer value) {
+            addCriterion("root <>", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectGreaterThan(Integer value) {
-            addCriterion("project >", value, "project");
+        public Criteria androotGreaterThan(Integer value) {
+            addCriterion("root >", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectGreaterThanOrEqualTo(Integer value) {
-            addCriterion("project >=", value, "project");
+        public Criteria androotGreaterThanOrEqualTo(Integer value) {
+            addCriterion("root >=", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectLessThan(Integer value) {
-            addCriterion("project <", value, "project");
+        public Criteria androotLessThan(Integer value) {
+            addCriterion("root <", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectLessThanOrEqualTo(Integer value) {
-            addCriterion("project <=", value, "project");
+        public Criteria androotLessThanOrEqualTo(Integer value) {
+            addCriterion("root <=", value, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectIn(List<Integer> values) {
-            addCriterion("project in", values, "project");
+        public Criteria androotIn(List<Integer> values) {
+            addCriterion("root in", values, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectNotIn(List<Integer> values) {
-            addCriterion("project not in", values, "project");
+        public Criteria androotNotIn(List<Integer> values) {
+            addCriterion("root not in", values, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectBetween(Integer value1, Integer value2) {
-            addCriterion("project between", value1, value2, "project");
+        public Criteria androotBetween(Integer value1, Integer value2) {
+            addCriterion("root between", value1, value2, "root");
             return (Criteria) this;
         }
 
-        public Criteria andProjectNotBetween(Integer value1, Integer value2) {
-            addCriterion("project not between", value1, value2, "project");
+        public Criteria androotNotBetween(Integer value1, Integer value2) {
+            addCriterion("root not between", value1, value2, "root");
             return (Criteria) this;
         }
 
@@ -332,73 +332,73 @@ public class ZtTeamExample {
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserIsNull() {
-            addCriterion("limitedUser is null");
+        public Criteria andlimitedIsNull() {
+            addCriterion("limited is null");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserIsNotNull() {
-            addCriterion("limitedUser is not null");
+        public Criteria andlimitedIsNotNull() {
+            addCriterion("limited is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserEqualTo(String value) {
-            addCriterion("limitedUser =", value, "limiteduser");
+        public Criteria andlimitedEqualTo(String value) {
+            addCriterion("limited =", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserNotEqualTo(String value) {
-            addCriterion("limitedUser <>", value, "limiteduser");
+        public Criteria andlimitedNotEqualTo(String value) {
+            addCriterion("limited <>", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserGreaterThan(String value) {
-            addCriterion("limitedUser >", value, "limiteduser");
+        public Criteria andlimitedGreaterThan(String value) {
+            addCriterion("limited >", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserGreaterThanOrEqualTo(String value) {
-            addCriterion("limitedUser >=", value, "limiteduser");
+        public Criteria andlimitedGreaterThanOrEqualTo(String value) {
+            addCriterion("limited >=", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserLessThan(String value) {
-            addCriterion("limitedUser <", value, "limiteduser");
+        public Criteria andlimitedLessThan(String value) {
+            addCriterion("limited <", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserLessThanOrEqualTo(String value) {
-            addCriterion("limitedUser <=", value, "limiteduser");
+        public Criteria andlimitedLessThanOrEqualTo(String value) {
+            addCriterion("limited <=", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserLike(String value) {
-            addCriterion("limitedUser like", value, "limiteduser");
+        public Criteria andlimitedLike(String value) {
+            addCriterion("limited like", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserNotLike(String value) {
-            addCriterion("limitedUser not like", value, "limiteduser");
+        public Criteria andlimitedNotLike(String value) {
+            addCriterion("limited not like", value, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserIn(List<String> values) {
-            addCriterion("limitedUser in", values, "limiteduser");
+        public Criteria andlimitedIn(List<String> values) {
+            addCriterion("limited in", values, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserNotIn(List<String> values) {
-            addCriterion("limitedUser not in", values, "limiteduser");
+        public Criteria andlimitedNotIn(List<String> values) {
+            addCriterion("limited not in", values, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserBetween(String value1, String value2) {
-            addCriterion("limitedUser between", value1, value2, "limiteduser");
+        public Criteria andlimitedBetween(String value1, String value2) {
+            addCriterion("limited between", value1, value2, "limited");
             return (Criteria) this;
         }
 
-        public Criteria andLimiteduserNotBetween(String value1, String value2) {
-            addCriterion("limitedUser not between", value1, value2, "limiteduser");
+        public Criteria andlimitedNotBetween(String value1, String value2) {
+            addCriterion("limited not between", value1, value2, "limited");
             return (Criteria) this;
         }
 

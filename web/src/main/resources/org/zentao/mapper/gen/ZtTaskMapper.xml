@@ -171,12 +171,12 @@
   <select id="statTaskConsumedByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
     resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
     select
-      sum(consumed) as consumedTime,
-      sum(estimate) as estimatedTime,
+      sum(t.consumed) as consumedTime,
+      sum(t.estimate) as estimatedTime,
       count(*) as taskNum,
       t.finishedBy as member
     from zt_task t
-    right join zt_team te on te.project = t.project and te.account = t.finishedBy
+    right join zt_team te on te.root = t.project and te.account = t.finishedBy
 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause_Alias" />
