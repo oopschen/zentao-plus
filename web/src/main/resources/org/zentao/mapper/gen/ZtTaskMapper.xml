@@ -152,6 +152,7 @@
     </where>
   </sql>
 
+    <!--  旧统计方法，可删除-->
   <select id="statTaskConsumedByTyp" parameterType="org.zentao.entity.gen.ZtTaskExample"
     resultType="org.zentao.entity.mybatis.StatTaskByTypResult">
     select
@@ -167,7 +168,35 @@
     group by `type`
 
   </select>
-  
+
+<!--    任务类型数量统计-->
+  <select id="tolNumByTyp" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskByTypResult">
+    select
+    count(*) as tolNum,t.type as typ
+    from zt_task t
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    and parent>=0
+    GROUP BY t.type
+
+  </select>
+
+<!--    任务类型消耗时间统计-->
+  <select id="consumedTimeByTyp" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskByTypResult">
+    select sum(ta.consumed) as consumedTime, t.type as typ
+    from zt_taskestimate ta
+    INNER JOIN zt_task t on ta.task=t.id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by t.type
+
+  </select>
+
+<!--  旧统计方法，可删除-->
   <select id="statTaskConsumedByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
     resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
     select
@@ -182,8 +211,78 @@
       <include refid="Example_Where_Clause_Alias" />
     </if>
 
-    group by t.finishedBy
+      group by t.finishedBy
 
   </select>
 
+<!--  项目成员耗时统计-->
+  <select id="consumedTimeByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
+    select sum(ta.consumed) as consumedTime,
+    ta.account as member
+    from zt_taskestimate ta
+    INNER JOIN zt_task t
+    on ta.task=t.id
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+
+    group by ta.account
+
+  </select>
+
+<!--   项目成员任务数统计-->
+  <select id="taskNumByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
+    select count(*) as taskNum,
+    ta.account  as member
+    from
+    (select DISTINCT task,account from zt_taskestimate)  ta
+    INNER JOIN zt_task t on ta.task=t.id
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+    and t.parent>=0
+    group by ta.account
+
+  </select>
+
+<!--  项目成员非团队预计时间统计-->
+  <select id="unGroupEstimatedTimeByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
+    select sum(t.estimate) estimatedTime,ta.account as member
+    from
+    (select DISTINCT task,account from zt_taskestimate  where task not in
+    (select root from zt_team where type='task' GROUP BY root)) ta
+    INNER JOIN zt_task t on ta.task=t.id
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+
+    and t.parent>=0
+    group by ta.account
+
+  </select>
+
+
+<!--  项目成员团队预计时间统计-->
+  <select id="groupEstimatedTimeByMember" parameterType="org.zentao.entity.gen.ZtTaskExample"
+          resultType="org.zentao.entity.mybatis.StatTaskConsumedByMemberResult">
+
+    select sum(te.estimate) estimatedTime  ,
+    te.account as member
+    from zt_team te
+    INNER JOIN zt_task t on t.id=te.root
+
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+
+    and t.parent>=0
+    and te.type='task'
+    GROUP BY te.account
+  </select>
 </mapper>

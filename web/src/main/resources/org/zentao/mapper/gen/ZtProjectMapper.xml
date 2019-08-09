@@ -120,11 +120,12 @@
 
   <!--do not delete -->
   <select id="statProjectTimeConsumed" resultType="org.zentao.entity.stat.ProjectProfileStat">
-    select
-      p.id as id,
-      sum(consumed) as totalTimeUsage
-    from zt_project p
-    inner join zt_task t on p.id = t.project
+    SELECT
+     p.id as id,sum(t.consumed) as totalTimeUsage
+     FROM zt_project p
+     INNER JOIN
+     (select n.project ,m.consumed,n.deleted,n.`status` from zt_task n,zt_taskestimate m where n.id=m.task) t
+     on p.id=t.project
     <where>
       <if test="null != createDate">
         p.begin <![CDATA[ >= ]]> #{createDate}
@@ -181,7 +182,7 @@
       p.id as id,
       count(account) as totalMembers
     from zt_project p
-    inner join zt_team t on p.id = t.project
+    inner join zt_team t on p.id = t.root
     <where>
       <if test="null != createDate">
         p.begin <![CDATA[ >= ]]> #{createDate}
@@ -218,11 +219,10 @@
   </select>
 
   <select id="statProjectMemberTimeUsage" resultType="org.zentao.entity.stat.MemberProjectConsumeStat">
-    select
-      t.finishedBy as name,
-      sum(t.consumed) as tolConsumedTime
-    from zt_project p
-    inner join zt_task t on p.id = t.project
+    select t.account name,sum(t.consumed) tolConsumedTime
+    from zt_project p INNER join
+    (select n.id,n.project,m.consumed,m.account,n.deleted,n.`status`,n.canceledBy from zt_task n,zt_taskestimate m where m.task=n.id) t
+    on p.id=t.project
     <where>
       <if test="null != createDate">
         p.begin <![CDATA[ >= ]]> #{createDate}
@@ -241,6 +241,6 @@
       and p.deleted = '0'
       and t.canceledBy = ''
     </where>
-    group by t.finishedBy
+    GROUP BY t.account
   </select>
 </mapper>

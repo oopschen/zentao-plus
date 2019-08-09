@@ -81,34 +81,63 @@ public class StatServiceImpl implements StatService {
         .andStatusIn(applicationConfiguration.getTaskStatus())
     ;
 
-    // query time consumed stat
-    List<StatTaskConsumedByMemberResult> statTaskConsumedByMemberResults = ztTaskMapper
-        .statTaskConsumedByMember(queryCondition);
-    if (CollectionUtils.isEmpty(statTaskConsumedByMemberResults)) {
-      return null;
-    }
+    //项目人员总耗时
+    List<StatTaskConsumedByMemberResult> consumedTimeByMemberResults = ztTaskMapper
+            .consumedTimeByMember(queryCondition);
+    //项目人员任务数
+    List<StatTaskConsumedByMemberResult> taskNumByMemberResults = ztTaskMapper
+            .taskNumByMember(queryCondition);
+    //项目人员非团队任务预计
+    List<StatTaskConsumedByMemberResult> unGroupEstimatedTimeByMemberResults = ztTaskMapper
+            .unGroupEstimatedTimeByMember(queryCondition);
+    //项目人员团队任务预计
+    List<StatTaskConsumedByMemberResult> groupEstimatedTimeByMemberResults = ztTaskMapper
+            .groupEstimatedTimeByMember(queryCondition);
 
     // query story related stat
     List<MemberStoryStat> memberStoryStats = personStatMapper
         .statMemberStoryCount(projectID, applicationConfiguration.getStoryStatus());
-
     for (final MemberProjectConsumeStat tmp : memberProjectConsumeStats) {
-      StatTaskConsumedByMemberResult foundValue = IterableUtils
-          .find(statTaskConsumedByMemberResults,
+      // 项目人员总耗时合并
+      StatTaskConsumedByMemberResult consumedTimeValue = IterableUtils
+          .find(consumedTimeByMemberResults,
               object -> object.getMember().equals(tmp.getName())
           );
-
-      // set time consumed stat
-      if (null == foundValue) {
+      if (null == consumedTimeValue) {
         tmp.setTolConsumedTime(0d);
-        tmp.setTolEstimatedTime(0d);
+      } else {
+        tmp.setTolConsumedTime(consumedTimeValue.getConsumedTime());
+      }
+      //项目人员任务合并
+      StatTaskConsumedByMemberResult taskNumValue = IterableUtils
+              .find(taskNumByMemberResults,
+                      object -> object.getMember().equals(tmp.getName())
+              );
+      if (null == taskNumValue) {
         tmp.setTaskTolNum(0);
       } else {
-        tmp.setTolConsumedTime(foundValue.getConsumedTime());
-        tmp.setTolEstimatedTime(foundValue.getEstimatedTime());
-        tmp.setTaskTolNum(foundValue.getTaskNum());
-
+        tmp.setTaskTolNum(taskNumValue.getTaskNum());
       }
+      //项目人员预计时间合并
+      StatTaskConsumedByMemberResult unGroupEstimatedTimeValue = IterableUtils
+              .find(unGroupEstimatedTimeByMemberResults,
+                      object -> object.getMember().equals(tmp.getName())
+              );
+      StatTaskConsumedByMemberResult groupEstimatedTimeValue = IterableUtils
+              .find(groupEstimatedTimeByMemberResults,
+                      object -> object.getMember().equals(tmp.getName())
+              );
+
+      Double TolEstimatedTime=0d;
+      if ( null != groupEstimatedTimeValue)
+      {
+        TolEstimatedTime+=groupEstimatedTimeValue.getEstimatedTime();
+      }
+      if(null != unGroupEstimatedTimeValue)
+      {
+        TolEstimatedTime+=unGroupEstimatedTimeValue.getEstimatedTime();
+      }
+      tmp.setTolEstimatedTime(TolEstimatedTime);
 
       // set story stat
       MemberStoryStat foundMemberStoryStat = IterableUtils.find(memberStoryStats,
@@ -134,18 +163,27 @@ public class StatServiceImpl implements StatService {
         .andStatusIn(applicationConfiguration.getTaskStatus())
     ;
 
-    List<StatTaskByTypResult> taskByTyps = ztTaskMapper.statTaskConsumedByTyp(queryCondition);
-    if (CollectionUtils.isEmpty(taskByTyps)) {
+    //任务类型数量统计
+    List<StatTaskByTypResult> tolNumByTyps = ztTaskMapper.tolNumByTyp(queryCondition);
+    //任务类型耗时统计
+    List<StatTaskByTypResult> consumedTimeByTyps= ztTaskMapper.consumedTimeByTyp(queryCondition);
+
+    if (CollectionUtils.isEmpty(tolNumByTyps)) {
       return null;
     }
 
-    List<ProjectTaskConsumedStat> result = new ArrayList<>(taskByTyps.size());
-    for (StatTaskByTypResult tmpTaskByTyp : taskByTyps) {
+    List<ProjectTaskConsumedStat> result = new ArrayList<>(tolNumByTyps.size());
+    for (StatTaskByTypResult tolNum : tolNumByTyps) {
       ProjectTaskConsumedStat stat = new ProjectTaskConsumedStat();
 
-      stat.setTaskTyp(tmpTaskByTyp.getTyp());
-      stat.setConsumedTime(tmpTaskByTyp.getConsumedTime());
-      stat.setTotalNum(tmpTaskByTyp.getTolNum());
+      stat.setTaskTyp(tolNum.getTyp());
+      stat.setTotalNum(tolNum.getTolNum());
+
+      for (StatTaskByTypResult consumedTime : consumedTimeByTyps) {
+        if(consumedTime.getTyp().equals(stat.getTaskTyp())) {
+          stat.setConsumedTime(consumedTime.getConsumedTime());
+        }
+      }
 
       result.add(stat);
     }
